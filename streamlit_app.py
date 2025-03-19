@@ -857,16 +857,19 @@ def main():
         
         # Add explanatory text
         st.markdown("""
-        <h4>Understanding the Forecast</h4>
-        <p>The forecast above shows three potential interest rate scenarios over the next 12 months:</p>
-        <ul>
-            <li><b>Rising Scenario:</b> Rates increase by approximately 0.125% per month</li>
-            <li><b>Steady Scenario:</b> Rates remain relatively stable with minor fluctuations</li>
-            <li><b>Falling Scenario:</b> Rates decrease by approximately 0.1% per month</li>
-        </ul>
-        <p>These scenarios are based on historical trends and current market conditions but are not guaranteed predictions.</p>
-        <p><b>What this means for your loan:</b> If you're considering an adjustable-rate mortgage, the interest rate forecast provides insight into potential future payment changes.</p>
+            <div class="info-box">
+                <h4>Understanding the Forecast</h4>
+                <p>The forecast above shows three potential interest rate scenarios over the next 12 months:</p>
+                <ul style="background: none; padding-left: 20px;">
+                    <li style="background: none;"><b>Rising Scenario:</b> Rates increase by approximately 0.125% per month</li>
+                    <li style="background: none;"><b>Steady Scenario:</b> Rates remain relatively stable with minor fluctuations</li>
+                    <li style="background: none;"><b>Falling Scenario:</b> Rates decrease by approximately 0.1% per month</li>
+                </ul>
+                <p>These scenarios are based on historical trends and current market conditions but are not guaranteed predictions.</p>
+                <p><b>What this means for your loan:</b> If you're considering an adjustable-rate mortgage, the interest rate forecast provides insight into potential future payment changes.</p>
+            </div>
         """, unsafe_allow_html=True)
+
 
     
     # Tab 4: Stress Test
