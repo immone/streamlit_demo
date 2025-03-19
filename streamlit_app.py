@@ -1027,21 +1027,21 @@ def main():
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            # Show emergency fund recommendations
-            st.markdown(f"""
-            <div style="margin-top: 15px; padding: 15px; border-radius: 5px; background-color: #374151;">
-                <h4 style="color: #D1D5DB;">Emergency Fund Recommendations</h4>
-                <p style="color: #D1D5DB;">Based on your monthly housing cost of <b>€{total_housing_cost:.2f}</b>:</p>
-                <ul style="color: #D1D5DB;">
-                    <li><b>Minimum (3 months):</b> €{min_emergency_fund:.2f}</li>
-                    <li><b>Recommended (6 months):</b> €{recommended_emergency_fund:.2f}</li>
-                    <li><b>Strong Position (12 months):</b> €{strong_emergency_fund:.2f}</li>
-                </ul>
-                <p style="color: #D1D5DB;">Your current emergency fund would cover <b>{emergency_fund / total_housing_cost:.1f} months</b> of housing expenses.</p>
-                <p style="color: #D1D5DB;">{"<b>Recommendation:</b> Consider increasing your emergency fund to at least 6 months of housing expenses." if emergency_fund < recommended_emergency_fund else
-                "<b>Recommendation:</b> Your emergency fund is at a good level, providing appropriate protection against financial stress scenarios."}</p>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div class="info-box">
+                        <h4>Emergency Fund Recommendations</h4>
+                        <p>Based on your monthly housing cost of <b>€{total_housing_cost:.2f}</b>:</p>
+                        <ul style="background: none; padding-left: 20px;">
+                            <li style="background: none;"><b>Minimum (3 months):</b> €{min_emergency_fund:.2f}</li>
+                            <li style="background: none;"><b>Recommended (6 months):</b> €{recommended_emergency_fund:.2f}</li>
+                            <li style="background: none;"><b>Strong Position (12 months):</b> €{strong_emergency_fund:.2f}</li>
+                        </ul>
+                        <p>Your current emergency fund would cover <b>{emergency_fund / total_housing_cost:.1f} months</b> of housing expenses.</p>
+                        <p><b>Recommendation:</b> {"Consider increasing your emergency fund to at least 6 months of housing expenses." if emergency_fund < recommended_emergency_fund else
+                        "Your emergency fund is at a good level, providing appropriate protection against financial stress scenarios."}</p>
+                    </div>
+                """, unsafe_allow_html=True)
+
     
     # Tab 5: Neighborhood Analysis
     with tab5:
