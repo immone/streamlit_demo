@@ -58,24 +58,34 @@ colors = {
     'light': '#FFF4E6',
     'white': '#FFFFFF',
     'text': '#333333',
-    'slate': '#708090'
+    'slate': '#708090',
+    'positive': '#4DAA57',
+    'negative': '#E63946'
 }
 
 st.markdown(f"""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Calibri:wght@300;400;700&display=swap');
+    
     .stApp {{
         background-color: {colors['white']};
         color: {colors['text']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .block-container {{
         padding-top: 1rem;
     }}
     h1, h2, h3 {{
         color: {colors['primary']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .stButton button {{
         background-color: {colors['primary']};
         color: {colors['white']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .info-card {{
         padding: 1.5rem;
@@ -84,6 +94,8 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
         border-left: 4px solid {colors['primary']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .warning-card {{
         padding: 1.5rem;
@@ -92,6 +104,8 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
         border-left: 4px solid {colors['warning']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .success-card {{
         padding: 1.5rem;
@@ -100,6 +114,8 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
         border-left: 4px solid {colors['success']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .kpi-container {{
         display: flex;
@@ -111,15 +127,20 @@ st.markdown(f"""
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         text-align: center;
         height: 100%;
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .kpi-value {{
         font-size: 1.8rem;
-        font-weight: bold;
+        font-weight: 700;
         margin-bottom: 0.5rem;
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
     }}
     .kpi-label {{
         font-size: 0.9rem;
         color: {colors['slate']};
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
     }}
     .stTabs [data-baseweb="tab-list"] {{
         gap: 24px;
@@ -131,6 +152,92 @@ st.markdown(f"""
         border-radius: 4px 4px 0 0;
         padding: 10px 16px;
         font-weight: 500;
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
+    }}
+    
+    /* Improved clean finance styles */
+    .finance-table {{
+        width: 100%;
+        border-spacing: 0;
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
+    }}
+    
+    .finance-table tr {{
+        height: 40px;
+    }}
+    
+    .finance-table td {{
+        padding: 8px 0;
+    }}
+    
+    .finance-table tr.total-row {{
+        border-top: 1px solid #ddd;
+        font-weight: 700;
+    }}
+    
+    .finance-table .amount {{
+        text-align: right;
+        font-family: 'Calibri Light', 'Calibri', monospace;
+        font-weight: 600;
+    }}
+    
+    .finance-table .positive {{
+        color: {colors['positive']};
+    }}
+    
+    .finance-table .negative {{
+        color: {colors['negative']};
+    }}
+    
+    .finance-card {{
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 1.5rem;
+        height: 100%;
+        margin-bottom: 20px;
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
+    }}
+    
+    /* Number input styling */
+    .stNumberInput [data-testid="stNumberInput"] > div > div > input {{
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 500;
+    }}
+    
+    /* Slider styling */
+    .stSlider [data-testid="stSlider"] {{
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+    }}
+    
+    /* Dataframe styling */
+    .dataframe {{
+        font-family: 'Calibri Light', 'Calibri', sans-serif !important;
+    }}
+    
+    /* General text styling */
+    p, div, span {{
+        font-family: 'Calibri Light', 'Calibri', sans-serif;
+        font-weight: 300;
+    }}
+    
+    /* Style for dataframe cells to color positive/negative values */
+    [data-testid="stDataFrame"] td:nth-child(2) {{
+        font-family: 'Calibri Light', 'Calibri', monospace;
+        font-weight: 600;
+    }}
+    
+    [data-testid="stDataFrame"] td:nth-child(2):contains("+") {{
+        color: #4DAA57 !important;
+    }}
+    
+    [data-testid="stDataFrame"] td:nth-child(2):contains("-") {{
+        color: #E63946 !important;
     }}
     </style>
 """, unsafe_allow_html=True)
@@ -191,26 +298,6 @@ with st.sidebar:
     st.markdown(f"**Maintenance Fee:** €{property_data['maintenance_fee']}/month")
 
 # -------------------- LOAN & FINANCIAL PARAMETERS --------------------
-show_financial_info = st.checkbox("Show Key Financial Information", value=True)
-if show_financial_info:
-    st.markdown("### Key Financial Information")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        financial_vars["monthly_income"] = st.number_input("Monthly Net Income (€)", value=financial_vars["monthly_income"])
-        financial_vars["monthly_expenses"] = st.number_input("Monthly Expenses (€)", value=financial_vars["monthly_expenses"])
-        financial_vars["other_loans"] = st.number_input("Other Monthly Loan Payments (€)", value=financial_vars["other_loans"])
-
-    with col2:
-        financial_vars["loan_amount"] = st.number_input("Loan Amount (€)", value=financial_vars["loan_amount"])
-        financial_vars["down_payment"] = st.number_input("Down Payment (€)", value=financial_vars["down_payment"])
-        financial_vars["other_assets"] = st.number_input("Other Assets (€)", value=financial_vars["other_assets"])
-
-    with col3:
-        financial_vars["loan_term"] = st.slider("Loan Term (years)", min_value=10, max_value=30, value=financial_vars["loan_term"])
-        financial_vars["interest_rate"] = st.slider("Interest Rate (%)", min_value=1.0, max_value=10.0, value=financial_vars["interest_rate"], step=0.1)
-
-# -------------------- CALCULATIONS --------------------
 mi = financial_vars["monthly_income"]
 me = financial_vars["monthly_expenses"]
 ol = financial_vars["other_loans"]
@@ -220,6 +307,93 @@ dp = financial_vars["down_payment"]
 lt = financial_vars["loan_term"]
 ir = financial_vars["interest_rate"]
 
+# Always calculate core financial metrics regardless of UI state
+monthly_payment = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
+loan_to_value = (la / (la + dp)) * 100
+debt_to_income = ((monthly_payment + ol) / mi) * 100
+disposable_income = mi - me - monthly_payment - ol
+asset_to_loan_ratio = (oa / la) * 100
+
+monthly_maintenance = property_data["maintenance_fee"]
+renovation_cost_monthly = sum([r["estimated_cost"] for r in property_data["upcoming_renovations"]]) / (10 * 12) if property_data["upcoming_renovations"] else 0
+total_monthly_housing_cost = monthly_payment + monthly_maintenance + renovation_cost_monthly
+total_housing_ratio = (total_monthly_housing_cost / mi) * 100
+
+risk_score = (debt_to_income * 0.4 + loan_to_value * 0.4 - (disposable_income/mi)*20 - (asset_to_loan_ratio*0.1))
+risk_category = "Low Risk" if risk_score < 20 else "Moderate Risk" if risk_score < 35 else "High Risk"
+risk_color = colors['success'] if risk_score < 20 else colors['primary'] if risk_score < 35 else colors['warning']
+
+# Now show the financial info UI if selected (but calculations are already done)
+# Always start by setting the financial variables from the stored state
+# This ensures calculations are done regardless of UI visibility
+mi = financial_vars["monthly_income"]
+me = financial_vars["monthly_expenses"]
+ol = financial_vars["other_loans"]
+oa = financial_vars["other_assets"]
+la = financial_vars["loan_amount"]
+dp = financial_vars["down_payment"]
+lt = financial_vars["loan_term"]
+ir = financial_vars["interest_rate"]
+
+# Always calculate core financial metrics regardless of UI state
+monthly_payment = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
+loan_to_value = (la / (la + dp)) * 100
+debt_to_income = ((monthly_payment + ol) / mi) * 100
+disposable_income = mi - me - monthly_payment - ol
+asset_to_loan_ratio = (oa / la) * 100
+
+monthly_maintenance = property_data["maintenance_fee"]
+renovation_cost_monthly = sum([r["estimated_cost"] for r in property_data["upcoming_renovations"]]) / (10 * 12) if property_data["upcoming_renovations"] else 0
+total_monthly_housing_cost = monthly_payment + monthly_maintenance + renovation_cost_monthly
+total_housing_ratio = (total_monthly_housing_cost / mi) * 100
+
+risk_score = (debt_to_income * 0.4 + loan_to_value * 0.4 - (disposable_income/mi)*20 - (asset_to_loan_ratio*0.1))
+risk_category = "Low Risk" if risk_score < 20 else "Moderate Risk" if risk_score < 35 else "High Risk"
+risk_color = colors['success'] if risk_score < 20 else colors['primary'] if risk_score < 35 else colors['warning']
+
+# Now show the financial info UI if selected (but calculations are already done)
+show_financial_info = st.checkbox("Show Key Financial Information", value=True)
+if show_financial_info:
+    st.markdown("### Key Financial Information")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        financial_vars["monthly_income"] = st.number_input("Monthly Net Income (€)", value=financial_vars["monthly_income"], key="global_monthly_income")
+        financial_vars["monthly_expenses"] = st.number_input("Monthly Expenses (€)", value=financial_vars["monthly_expenses"], key="global_monthly_expenses")
+        financial_vars["other_loans"] = st.number_input("Other Monthly Loan Payments (€)", value=financial_vars["other_loans"], key="global_other_loans")
+
+    with col2:
+        financial_vars["loan_amount"] = st.number_input("Loan Amount (€)", value=financial_vars["loan_amount"], key="global_loan_amount")
+        financial_vars["down_payment"] = st.number_input("Down Payment (€)", value=financial_vars["down_payment"], key="global_down_payment")
+        financial_vars["other_assets"] = st.number_input("Other Assets (€)", value=financial_vars["other_assets"], key="global_other_assets")
+
+    with col3:
+        financial_vars["loan_term"] = st.slider("Loan Term (years)", min_value=10, max_value=30, value=financial_vars["loan_term"], key="global_loan_term")
+        financial_vars["interest_rate"] = st.slider("Interest Rate (%)", min_value=1.0, max_value=10.0, value=financial_vars["interest_rate"], step=0.1, key="global_interest_rate")
+    
+    # Update our variables after user input changes
+    mi = financial_vars["monthly_income"]
+    me = financial_vars["monthly_expenses"]
+    ol = financial_vars["other_loans"]
+    oa = financial_vars["other_assets"]
+    la = financial_vars["loan_amount"]
+    dp = financial_vars["down_payment"]
+    lt = financial_vars["loan_term"]
+    ir = financial_vars["interest_rate"]
+    
+    # Recalculate financial metrics with updated values
+    monthly_payment = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
+    loan_to_value = (la / (la + dp)) * 100
+    debt_to_income = ((monthly_payment + ol) / mi) * 100
+    disposable_income = mi - me - monthly_payment - ol
+    asset_to_loan_ratio = (oa / la) * 100
+    total_monthly_housing_cost = monthly_payment + monthly_maintenance + renovation_cost_monthly
+    total_housing_ratio = (total_monthly_housing_cost / mi) * 100
+    risk_score = (debt_to_income * 0.4 + loan_to_value * 0.4 - (disposable_income/mi)*20 - (asset_to_loan_ratio*0.1))
+    risk_category = "Low Risk" if risk_score < 20 else "Moderate Risk" if risk_score < 35 else "High Risk"
+    risk_color = colors['success'] if risk_score < 20 else colors['primary'] if risk_score < 35 else colors['warning']
+
+# -------------------- CALCULATIONS --------------------
 monthly_payment = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
 loan_to_value = (la / (la + dp)) * 100
 debt_to_income = ((monthly_payment + ol) / mi) * 100
@@ -259,7 +433,7 @@ scenarios = {
         "income_drop": 0,
         "expense_increase": 20,
         "interest_increase": 0.0,
-        "description": "New job offer in a more expensive city increases income slightly but moving costs, higher rent during transition, and lifestyle adjustments raise expenses by 20%; no income loss due to Finland’s employment support."
+        "description": "New job offer in a more expensive city increases income slightly but moving costs, higher rent during transition, and lifestyle adjustments raise expenses by 20%; no income loss due to Finland's employment support."
     }
 }
 
@@ -282,19 +456,22 @@ for scenario, params in scenarios.items():
         "Description": params["description"]
     }
 
-# -------------------- TAB STRUCTURE --------------------
-tab1, tab2, tab3, tab4 = st.tabs(["Loan Decision Summary", "Payment Analysis", "Property Details", "Smart Loan Optimizer"])
+# -------------------- FUNCTIONS FOR TABS --------------------
 
-# -------------------- TAB 1: LOAN DECISION SUMMARY --------------------
-with tab1:
-    st.markdown("<h2>Loan Decision Summary</h2>", unsafe_allow_html=True)
+# Function for the Financial Impact Summary
+def render_financial_summary():
+    # Make the financial impact summary wider by not using columns for the main visualization
+    st.subheader("Loan Impact Overview")
     
+    # Key financial metrics display
+    st.markdown("### Key Financial Indicators")
     kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
     
     with kpi_col1:
         ltv_color = "green" if loan_to_value < 80 else "orange" if loan_to_value < 90 else "red"
         st.markdown(f"""
-        <div class="kpi-container">
+        <div class="kpi-container" style="position: relative;">
+            <div style="position: absolute; top: 10px; right: 10px; cursor: help; color: #708090;" title="Loan amount divided by property value. Lower is better, indicating more equity. Banks typically prefer under 80%.">❓</div>
             <div class="kpi-value" style="color: {ltv_color};">{loan_to_value:.1f}%</div>
             <div class="kpi-label">Loan-to-Value</div>
             <div class="kpi-trend">{'Good' if loan_to_value < 80 else 'Moderate' if loan_to_value < 90 else 'High'}</div>
@@ -304,7 +481,8 @@ with tab1:
     with kpi_col2:
         dti_color = "green" if debt_to_income < 35 else "orange" if debt_to_income < 45 else "red"
         st.markdown(f"""
-        <div class="kpi-container">
+        <div class="kpi-container" style="position: relative;">
+            <div style="position: absolute; top: 10px; right: 10px; cursor: help; color: #708090;" title="Monthly debt payments divided by monthly income. Banks typically prefer under 43%. Your €{monthly_payment:.0f} payment is {debt_to_income:.1f}% of your €{mi:.0f} income.">❓</div>
             <div class="kpi-value" style="color: {dti_color};">{debt_to_income:.1f}%</div>
             <div class="kpi-label">Debt-to-Income</div>
             <div class="kpi-trend">{'Good' if debt_to_income < 35 else 'Moderate' if debt_to_income < 45 else 'High'}</div>
@@ -314,7 +492,8 @@ with tab1:
     with kpi_col3:
         thr_color = "green" if total_housing_ratio < 35 else "orange" if total_housing_ratio < 45 else "red"
         st.markdown(f"""
-        <div class="kpi-container">
+        <div class="kpi-container" style="position: relative;">
+            <div style="position: absolute; top: 10px; right: 10px; cursor: help; color: #708090;" title="Total housing costs (€{total_monthly_housing_cost:.0f}/month) divided by income (€{mi:.0f}/month). Includes mortgage, maintenance, and renovation reserves.">❓</div>
             <div class="kpi-value" style="color: {thr_color};">{total_housing_ratio:.1f}%</div>
             <div class="kpi-label">Housing Costs to Income</div>
             <div class="kpi-trend">{'Good' if total_housing_ratio < 35 else 'Moderate' if total_housing_ratio < 45 else 'High'}</div>
@@ -323,64 +502,966 @@ with tab1:
     
     with kpi_col4:
         st.markdown(f"""
-        <div class="kpi-container">
+        <div class="kpi-container" style="position: relative;">
+            <div style="position: absolute; top: 10px; right: 10px; cursor: help; color: #708090;" title="Composite score based on LTV, DTI and other factors. Lower scores (under 20) indicate less financial risk. Your score is {risk_category}.">❓</div>
             <div class="kpi-value" style="color: {risk_color};">{risk_score:.1f}</div>
             <div class="kpi-label">Overall Risk Score</div>
             <div class="kpi-trend" style="color: {risk_color};">{risk_category}</div>
         </div>
         """, unsafe_allow_html=True)
     
-    st.markdown("### Income vs. Expenses")
-    df_ie = pd.DataFrame({
-        "Category": ["Primary Salary", "Side Income", "Investments", 
-                    "Housing (New Loan)", "Maintenance Fee", "Renovations", 
-                    "Groceries", "Transport", "Utilities", "Entertainment", "Other Expenses", "Other Loans"],
-        "Amount": [mi*0.85, mi*0.1, mi*0.05, 
-                  monthly_payment, monthly_maintenance, renovation_cost_monthly,
-                  me*0.2, me*0.15, me*0.1, me*0.1, me*0.15, ol],
-        "Type": ["Income"]*3 + ["Expense"]*9
+    # Display the chart - full width for better visibility
+    st.markdown("### Monthly Budget Comparison")
+    chart_data = pd.DataFrame({
+        "Category": ["Incomes", "Living Expenses / Rent", "Other Expenses", "Savings/Investments", "Net Leftover"],
+        "Before": [4000, -1200, -800, -600, 1400],
+        "After": [4000, -1300, -800, -600, 900]
     })
-    
-    fig_ie = px.bar(df_ie, x="Category", y="Amount", color="Type", barmode="group",
-                    color_discrete_map={"Income": colors['primary'], "Expense": colors['secondary']})
-    fig_ie.update_layout(height=400)
-    st.plotly_chart(fig_ie, use_container_width=True)
-    
-    st.markdown("### Real-World Stress Scenarios")
-    scenario_options = ["Current"] + list(scenarios.keys())
-    selected_scenario = st.selectbox("Select a Stress Scenario", scenario_options)
-    
-    st.markdown(f"**Description:** {scenario_results[selected_scenario]['Description']}")
-    
-    scenario_df = pd.DataFrame({
-        "Metric": ["Monthly Payment", "Cash Flow", "Payment to Income"],
-        "Current": [
-            scenario_results["Current"]["Monthly Payment"],
-            scenario_results["Current"]["Cash Flow"],
-            scenario_results["Current"]["Payment to Income"]
-        ],
-        selected_scenario: [
-            scenario_results[selected_scenario]["Monthly Payment"],
-            scenario_results[selected_scenario]["Cash Flow"],
-            scenario_results[selected_scenario]["Payment to Income"]
-        ]
-    })
-    
-    # Bar chart comparing Current vs Selected Scenario
-    fig_scenario = px.bar(
-        scenario_df.melt(id_vars=["Metric"], value_vars=["Current", selected_scenario], var_name="Scenario", value_name="Value"),
-        x="Metric",
-        y="Value",
-        color="Scenario",
-        barmode="group",
-        title=f"Financial Impact: Current vs {selected_scenario}",
-        color_discrete_map={"Current": colors['primary'], selected_scenario: colors['warning']}
-    )
-    fig_scenario.update_layout(height=400, yaxis_title="€ or %")
-    st.plotly_chart(fig_scenario, use_container_width=True)
 
-# -------------------- TAB 2: PAYMENT ANALYSIS --------------------
-with tab2:
+    # Melt for plotly
+    chart_melted = chart_data.melt(id_vars=["Category"], var_name="Scenario", value_name="Amount")
+    
+    # Basic bar chart with your original color scheme - now full width
+    fig = px.bar(
+        chart_melted, 
+        x="Category", 
+        y="Amount", 
+        color="Scenario", 
+        barmode="group",
+        title="Before vs. After Comparison",
+        color_discrete_map={"Before": "#FF9500", "After": "#FF5A00"}
+    )
+    fig.update_layout(height=350)  # Slightly taller for better visibility
+    
+    # Show the chart
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # After the chart, show the detailed tables side by side
+    st.markdown("### Detailed Monthly Budget")
+    
+    # Set up the data - keeping your original values
+    before_data = {
+        "Incomes": 4000,
+        "Living Expenses + Rent": -1200,
+        "Other Expenses (food, hobbies)": -800,
+        "Savings/Investments": -600,
+        "Net Leftover": 1400
+    }
+    after_data = {
+        "Incomes": 4000,
+        "Monthly Installment": -1300,
+        "Living Expenses": -400,
+        "Other Expenses (food, hobbies)": -800,
+        "Savings/Investments": -600,
+        "Net Leftover": 900
+    }
+
+    # Two columns side by side with improved styling
+    col_before, col_after = st.columns(2)
+    
+    with col_before:
+        st.markdown('<div class="finance-card">', unsafe_allow_html=True)
+        st.markdown("#### Before Loan")
+        
+        # Create a DataFrame for the before data
+        before_df = pd.DataFrame(list(before_data.items()), columns=["Category", "Amount (€)"])
+        before_df["Amount (€)"] = before_df["Amount (€)"].apply(lambda x: f"+{x}€" if x > 0 else f"{x}€")
+        st.dataframe(before_df, hide_index=True, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col_after:
+        st.markdown('<div class="finance-card">', unsafe_allow_html=True)
+        st.markdown("#### After Loan")
+        
+        # Create a DataFrame for the after data
+        after_df = pd.DataFrame(list(after_data.items()), columns=["Category", "Amount (€)"])
+        after_df["Amount (€)"] = after_df["Amount (€)"].apply(lambda x: f"+{x}€" if x > 0 else f"{x}€")
+        st.dataframe(after_df, hide_index=True, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+def render_loan_calculator():
+    st.subheader("Personal Budget Calculator")
+    
+    st.info("""
+    This calculator uses the same financial information you provided in the "Key Financial Information" section. 
+    Any changes you make there will be reflected here automatically.
+    """)
+    
+    st.markdown("### Key Financial Metrics")
+    
+    monthly_interest = ir / 100 / 12
+    num_payments = lt * 12
+    monthly_payment = (la * monthly_interest * (1 + monthly_interest) ** num_payments) / (
+        (1 + monthly_interest) ** num_payments - 1
+    )
+    
+    payment_to_income = (monthly_payment / mi) * 100
+    total_debt_ratio = ((monthly_payment + ol) / mi) * 100
+    disposable_income = mi - me - monthly_payment - ol
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Monthly Payment", f"€{monthly_payment:.0f}")
+    col2.metric("Payment to Income", f"{payment_to_income:.1f}%")
+    col3.metric("Total Debt Ratio", f"{total_debt_ratio:.1f}%")
+    col4.metric("Leftover Income", f"€{disposable_income:.0f}")
+    
+    st.markdown("<hr style='margin: 30px 0;'>", unsafe_allow_html=True)
+    
+    col_inputs, col_results = st.columns([3, 2])
+    
+    with col_inputs:
+        st.markdown('<div class="finance-card">', unsafe_allow_html=True)
+        
+        st.markdown("#### Your Monthly Budget")
+        
+        monthly_income = st.number_input("Monthly Net Income (€)", 
+                                      value=financial_vars["monthly_income"], 
+                                      key="calc_monthly_income")
+        
+        st.markdown("##### Monthly Expenses")
+        col1, col2 = st.columns(2)
+        with col1:
+            living_expenses = st.number_input("Living Expenses (€)", 
+                                           value=financial_vars["monthly_expenses"], 
+                                           key="calc_living_expenses")
+            other_expenses = st.number_input("Other Expenses (€)", 
+                                          value=800, 
+                                          key="calc_other_expenses")
+        
+        with col2:
+            savings_investments = st.number_input("Savings / Investments (€)", 
+                                               value=600, 
+                                               key="calc_savings")
+            current_housing = st.number_input("Current Housing Costs (€)", 
+                                           value=financial_vars["other_loans"], 
+                                           key="calc_current_housing")
+        
+        st.markdown("---")
+        st.markdown("##### Loan Impact Calculator")
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;">Using loan parameters from the "Key Financial Information" section above.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <div><strong>Loan Amount:</strong> €{la:,}</div>
+            <div><strong>Term:</strong> {lt} years</div>
+            <div><strong>Interest Rate:</strong> {ir}%</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    monthly_payment = (la * monthly_interest * (1 + monthly_interest) ** num_payments) / (
+        (1 + monthly_interest) ** num_payments - 1
+    )
+    
+    net_income_after_expenses = monthly_income - living_expenses - other_expenses - savings_investments - current_housing
+    leftover_after_loan = net_income_after_expenses - monthly_payment + current_housing
+    
+    with col_results:
+        st.markdown('<div class="finance-card">', unsafe_allow_html=True)
+        
+        payment_to_income = (monthly_payment / monthly_income) * 100
+        
+        st.markdown("#### Financial Health Indicators")
+        
+        st.markdown(f"""
+        <div style="margin-bottom:20px;">
+            <div style="font-size:1rem; font-weight:500; margin-bottom:10px;">Payment to Income Ratio: {payment_to_income:.1f}%</div>
+            <div style="display:flex; align-items:center;">
+                <div style="flex-grow:1; height:8px; background-color:#f0f2f6; border-radius:4px;">
+                    <div style="width:{min(payment_to_income * 2, 100)}%; height:100%; background-color:{
+                        '#4DAA57' if payment_to_income < 30 else
+                        '#FF9500' if payment_to_income < 40 else
+                        '#E63946'
+                    }; border-radius:4px;"></div>
+                </div>
+                <div style="margin-left:10px; font-weight:500;">
+                    {
+                        'Good' if payment_to_income < 30 else
+                        'Moderate' if payment_to_income < 40 else
+                        'High'
+                    }
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("#### Loan Term Options")
+        
+        terms = [15, 20, 25, 30]
+        term_data = []
+        for term in terms:
+            term_monthly = (la * (ir/100/12) * (1 + ir/100/12)**(term*12)) / ((1 + ir/100/12)**(term*12) - 1)
+            term_total_interest = term_monthly * term * 12 - la
+            term_data.append({
+                "Term (years)": term, 
+                "Monthly Payment": term_monthly, 
+                "Total Interest": term_total_interest,
+                "Total Cost": term_monthly * term * 12,
+            })
+        
+        term_df = pd.DataFrame(term_data)
+        
+        fig_terms = px.bar(
+            term_df,
+            x="Term (years)",
+            y="Monthly Payment",
+            title="Effect of Loan Term on Monthly Payment",
+            color_discrete_sequence=[colors['primary']]
+        )
+        fig_terms.update_layout(height=200)
+        st.plotly_chart(fig_terms, use_container_width=True)
+        
+        term_display = term_df.copy()
+        term_display["Monthly Payment"] = term_display["Monthly Payment"].round().astype(int).apply(lambda x: f"€{x:,}")
+        term_display["Total Interest"] = term_display["Total Interest"].round().astype(int).apply(lambda x: f"€{x:,}")
+        term_display["Total Cost"] = term_display["Total Cost"].round().astype(int).apply(lambda x: f"€{x:,}")
+        st.dataframe(term_display, hide_index=True, use_container_width=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Function for Loan Setup Recommender - UPDATED to ensure HTML renders properly
+def render_loan_recommender():
+    # Header with clearer explanation - fixed HTML rendering
+    st.subheader("Personalized Loan Setup Recommendations")
+    
+    st.markdown("""
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <strong>What This Tool Does:</strong> Analyzes your financial situation to recommend the optimal loan structure based on your priorities and real-world banking criteria.
+        <br><br>
+        Our recommendations are based on Finnish banking standards and financial best practices, not just estimates. We factor in your debt-to-income ratio, loan-to-value ratio, and overall financial health.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Explain the options in more digestible format with concrete examples
+    st.markdown("### Common Loan Profiles in Finland")
+    
+    profile_col1, profile_col2, profile_col3 = st.columns(3)
+    
+    # Calculate concrete examples based on the user's actual loan amount
+    conservative_down = max(dp + 20000, 0.25 * (la + dp))
+    conservative_loan = (la + dp) - conservative_down
+    conservative_term = max(lt - 5, 15)
+    conservative_rate = max(ir - 0.3, 2.8)
+    conservative_monthly = (conservative_loan * (conservative_rate/100/12) * (1 + conservative_rate/100/12)**(conservative_term*12)) / ((1 + conservative_rate/100/12)**(conservative_term*12) - 1)
+    
+    balanced_down = max(dp + 10000, 0.20 * (la + dp))
+    balanced_loan = (la + dp) - balanced_down
+    balanced_term = lt
+    balanced_rate = max(ir - 0.15, 3.0)
+    balanced_monthly = (balanced_loan * (balanced_rate/100/12) * (1 + balanced_rate/100/12)**(balanced_term*12)) / ((1 + balanced_rate/100/12)**(balanced_term*12) - 1)
+    
+    growth_down = max(dp, 0.15 * (la + dp))
+    growth_loan = (la + dp) - growth_down
+    growth_term = min(lt + 3, 30)
+    growth_rate = ir
+    growth_monthly = (growth_loan * (growth_rate/100/12) * (1 + growth_rate/100/12)**(growth_term*12)) / ((1 + growth_rate/100/12)**(growth_term*12) - 1)
+    
+    with profile_col1:
+        st.markdown(f"""
+        <div style="padding: 15px; border: 1px solid #e6e6e6; border-radius: 5px; height: 100%;">
+            <h5 style="color: #4DAA57; margin-top: 0;">Conservative Profile</h5>
+            <ul style="padding-left: 15px; margin-bottom: 10px;">
+                <li><strong>Down payment:</strong> €{conservative_down:,.0f} (25%+)</li>
+                <li><strong>Loan amount:</strong> €{conservative_loan:,.0f}</li>
+                <li><strong>Term:</strong> {conservative_term} years</li>
+                <li><strong>Monthly payment:</strong> €{conservative_monthly:.0f}</li>
+                <li><strong>Interest rate:</strong> Typically {conservative_rate}%</li>
+            </ul>
+            <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A family with €80,000 in savings choosing a 15-year loan with lower total interest costs.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with profile_col2:
+        st.markdown(f"""
+        <div style="padding: 15px; border: 1px solid #e6e6e6; border-radius: 5px; height: 100%;">
+            <h5 style="color: #FF9500; margin-top: 0;">Balanced Profile</h5>
+            <ul style="padding-left: 15px; margin-bottom: 10px;">
+                <li><strong>Down payment:</strong> €{balanced_down:,.0f} (20%)</li>
+                <li><strong>Loan amount:</strong> €{balanced_loan:,.0f}</li>
+                <li><strong>Term:</strong> {balanced_term} years</li>
+                <li><strong>Monthly payment:</strong> €{balanced_monthly:.0f}</li>
+                <li><strong>Interest rate:</strong> Typically {balanced_rate}%</li>
+            </ul>
+            <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A couple with €70,000 savings choosing a 25-year loan with balanced payments vs. interest.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with profile_col3:
+        st.markdown(f"""
+        <div style="padding: 15px; border: 1px solid #e6e6e6; border-radius: 5px; height: 100%;">
+            <h5 style="color: #FF5A00; margin-top: 0;">Growth-Focused Profile</h5>
+            <ul style="padding-left: 15px; margin-bottom: 10px;">
+                <li><strong>Down payment:</strong> €{growth_down:,.0f} (15%)</li>
+                <li><strong>Loan amount:</strong> €{growth_loan:,.0f}</li>
+                <li><strong>Term:</strong> {growth_term} years</li>
+                <li><strong>Monthly payment:</strong> €{growth_monthly:.0f}</li>
+                <li><strong>Interest rate:</strong> Typically {growth_rate}%</li>
+            </ul>
+            <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A young professional with €50,000 savings choosing a 30-year loan to minimize monthly payments.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Simplify the inputs - more guided approach with real examples
+    st.markdown("### What's Your Financial Priority?")
+    
+    priority_option = st.radio(
+        "Choose what matters most to you:",
+        ["Lower Monthly Payments", "Balanced Approach", "Lower Total Interest Costs"],
+        index=1,
+        key="recommender_priority_option"
+    )
+    
+    # Map the selection to the slider value
+    if priority_option == "Lower Monthly Payments":
+        payment_priority = 1
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF9500; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You'll get a longer loan term (25-30 years) with 
+            lower monthly payments (around €{growth_monthly:.0f}/month in your case), but will pay more in total interest over time.</p>
+        </div>
+        """.format(growth_monthly=growth_monthly), unsafe_allow_html=True)
+    elif priority_option == "Balanced Approach":
+        payment_priority = 3
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF9500; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You'll get a moderate loan term (around 25 years) 
+            with reasonable monthly payments (around €{balanced_monthly:.0f}/month in your case) and moderate total interest costs.</p>
+        </div>
+        """.format(balanced_monthly=balanced_monthly), unsafe_allow_html=True)
+    else:  # Lower Total Interest
+        payment_priority = 5
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF9500; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You'll get a shorter loan term (15-20 years) with 
+            higher monthly payments (around €{conservative_monthly:.0f}/month in your case), but will save significantly on total interest.</p>
+        </div>
+        """.format(conservative_monthly=conservative_monthly), unsafe_allow_html=True)
+    
+    # Risk tolerance selection
+    st.markdown("### How comfortable are you with financial risk?")
+    
+    risk_option = st.radio(
+        "Choose your comfort level with financial stretching:",
+        ["Very Conservative", "Moderately Conservative", "Balanced", "Moderately Aggressive", "Aggressive"],
+        index=2,
+        key="recommender_risk_option"
+    )
+    
+    # Map the selection to risk tolerance value
+    risk_mapping = {
+        "Very Conservative": 1,
+        "Moderately Conservative": 2,
+        "Balanced": 3,
+        "Moderately Aggressive": 4,
+        "Aggressive": 5
+    }
+    
+    risk_tolerance = risk_mapping[risk_option]
+    
+    # Show risk implications with concrete numbers
+    if risk_option == "Very Conservative" or risk_option == "Moderately Conservative":
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #4DAA57; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You prefer financial security with higher down 
+            payments (€{conservative_down:,.0f}+) and lower loan-to-value ratios (under 75%). This gives you better interest 
+            rates and less risk if property values decline.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    elif risk_option == "Balanced":
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF9500; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You prefer a moderate approach with standard down 
+            payments (around €{balanced_down:,.0f} or 20%) and conventional loan terms. This balances financial security with 
+            keeping cash available for other needs.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    else:  # Aggressive options
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF5A00; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You're comfortable with higher financial leverage, 
+            using lower down payments (around €{growth_down:,.0f} or 15%) and longer terms to maximize cash flow and investment 
+            potential elsewhere.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Constraints section with better guidance
+    st.markdown("### Financial Constraints")
+    
+    # Show the current calculated monthly payment
+    current_monthly = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
+    
+    # Calculate percentages of income for different payment levels
+    low_payment = current_monthly * 0.8
+    low_payment_pct = (low_payment / mi) * 100
+    
+    high_payment = current_monthly * 1.2
+    high_payment_pct = (high_payment / mi) * 100
+    
+    current_payment_pct = (current_monthly / mi) * 100
+    
+    st.markdown(f"""
+    <div style="margin-bottom: 15px;">
+        <strong>Current Calculated Monthly Payment:</strong> €{current_monthly:.0f} ({current_payment_pct:.1f}% of your income)
+    </div>
+    """, unsafe_allow_html=True)
+    
+    max_monthly = st.slider(
+        "Maximum Comfortable Monthly Payment (€)", 
+        min_value=int(current_monthly * 0.7),
+        max_value=int(current_monthly * 1.5),
+        value=int(current_monthly * 1.1),
+        step=50,
+        key="recommender_max_payment"
+    )
+    
+    # Show what percentage of income the selected payment is
+    selected_payment_pct = (max_monthly / mi) * 100
+    payment_assessment = "good" if selected_payment_pct < 30 else "moderate" if selected_payment_pct < 40 else "high"
+    payment_color = "#4DAA57" if payment_assessment == "good" else "#FF9500" if payment_assessment == "moderate" else "#E63946"
+    
+    st.markdown(f"""
+    <div style="font-size: 0.9rem; margin: 10px 0;">
+        Your selected payment (€{max_monthly:.0f}) is <span style="color:{payment_color}; font-weight:600;">{selected_payment_pct:.1f}%</span> of your monthly income.
+        This is considered <span style="color:{payment_color}; font-weight:600;">{payment_assessment}</span> by most lenders.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Bank approval odds with explanation and concrete examples
+    st.markdown("""
+    <div style="margin: 20px 0 15px 0;">
+        <strong>Bank Approval Standards:</strong> Different banks have different risk tolerance levels.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    target_approval = st.selectbox(
+        "Target Approval Likelihood", 
+        ["Very High (95%+)", "High (80-95%)", "Moderate (65-80%)", "Flexible"],
+        index=1,
+        key="recommender_approval"
+    )
+    
+    # Add concrete examples for each approval tier
+    if target_approval == "Very High (95%+)":
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #4DAA57; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>Bank Examples:</strong> OP Bank, Nordea, and other major banks with stricter criteria. 
+            They typically require debt-to-income ratios under 35%, loan-to-value ratios under 80%, 
+            and excellent credit history.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    elif target_approval == "High (80-95%)":
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF9500; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>Bank Examples:</strong> Most Finnish banks including Danske Bank, S-Pankki. 
+            They typically accept debt-to-income ratios up to 40%, loan-to-value ratios up to 85%, 
+            and good credit history.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    elif target_approval == "Moderate (65-80%)":
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #FF5A00; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>Bank Examples:</strong> Some online lenders and smaller banks. 
+            They may accept debt-to-income ratios up to 45%, loan-to-value ratios up to 90%, 
+            and average credit history.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    else:  # Flexible
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #6c757d; border-radius: 4px; margin: 15px 0; font-size: 0.9rem;">
+            <p style="margin-bottom: 0;"><strong>What this means:</strong> You'll see all options regardless of approval likelihood. 
+            Some may require shopping around at multiple lenders or working with a mortgage broker 
+            to find specialized programs.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Generate button
+    if st.button("Generate My Personalized Recommendation", use_container_width=True, key="recommender_button"):
+        with st.spinner("Analyzing financial profiles and bank approval criteria..."):
+            time.sleep(2)
+            
+            # Generate options based on real mortgage lending standards
+            # Calculate realistic options based on the user's financial profile
+            options = [
+                {
+                    "name": "Conservative",
+                    "down_payment": max(dp + 20000, 0.25 * (la + dp)),  # At least 25% down payment
+                    "loan_amount": min(la - 20000, 0.75 * (la + dp)),
+                    "term": max(lt - 5, 15),
+                    "rate": max(ir - 0.3, 2.8),  # Better rates for conservative profiles
+                    "monthly": 0,
+                    "total_interest": 0,
+                    "approval_odds": "Very High (95%+)",
+                    "risk_score": "Low Risk",
+                    "key_benefits": [
+                        "Lower total interest costs",
+                        "Faster equity building",
+                        "Better interest rates",
+                        "Higher approval likelihood"
+                    ],
+                    "considerations": [
+                        "Higher monthly payments",
+                        "More cash needed upfront",
+                        "Less funds for other investments"
+                    ]
+                },
+                {
+                    "name": "Balanced",
+                    "down_payment": max(dp + 10000, 0.20 * (la + dp)),  # 20% down payment (standard)
+                    "loan_amount": min(la - 10000, 0.80 * (la + dp)),
+                    "term": lt,
+                    "rate": max(ir - 0.15, 3.0),
+                    "monthly": 0,
+                    "total_interest": 0,
+                    "approval_odds": "High (80-95%)",
+                    "risk_score": "Moderate Risk",
+                    "key_benefits": [
+                        "Good balance of payment vs. interest",
+                        "Meets standard bank requirements",
+                        "Moderate cash needs upfront",
+                        "Leaves room for other investments"
+                    ],
+                    "considerations": [
+                        "Moderate total interest costs",
+                        "Average equity building pace",
+                        "Standard interest rates"
+                    ]
+                },
+                {
+                    "name": "Growth-Focused",
+                    "down_payment": max(dp, 0.15 * (la + dp)),  # 15% minimum down payment
+                    "loan_amount": min(la, 0.85 * (la + dp)),
+                    "term": min(lt + 3, 30),
+                    "rate": ir,  # Standard rate for higher LTV
+                    "monthly": 0,
+                    "total_interest": 0,
+                    "approval_odds": "Moderate (65-80%)",
+                    "risk_score": "Moderate Risk",
+                    "key_benefits": [
+                        "Lower monthly payment burden",
+                        "Minimum cash needed upfront",
+                        "More cash available for other investments",
+                        "Flexibility for career growth"
+                    ],
+                    "considerations": [
+                        "Higher total interest costs",
+                        "Slower equity building",
+                        "May require mortgage insurance",
+                        "Higher interest rates"
+                    ]
+                }
+            ]
+            
+            # Calculate monthly payments and total interest using actual formulas
+            for opt in options:
+                opt["monthly"] = (opt["loan_amount"] * (opt["rate"]/100/12) * 
+                                (1 + opt["rate"]/100/12)**(opt["term"]*12)) / \
+                                ((1 + opt["rate"]/100/12)**(opt["term"]*12) - 1)
+                opt["total_interest"] = opt["monthly"] * opt["term"] * 12 - opt["loan_amount"]
+                # Calculate real-world metrics
+                opt["ltv_ratio"] = (opt["loan_amount"] / (opt["loan_amount"] + opt["down_payment"])) * 100
+                opt["dti_ratio"] = (opt["monthly"] / mi) * 100
+            
+            # Filter options based on constraints and real approval criteria
+            filtered_options = [
+                opt for opt in options 
+                if opt["monthly"] <= max_monthly and
+                (target_approval == "Flexible" or opt["approval_odds"] == target_approval) and
+                opt["ltv_ratio"] <= 95  # Real-world maximum LTV
+            ]
+            
+            if not filtered_options:
+                st.warning("""
+                No options match your constraints. This happens when your maximum payment is too low 
+                or your approval requirements are too strict for your financial situation. Try adjusting your parameters.
+                """)
+            else:
+                # Map risk tolerance to profile index, with more nuanced selection
+                if risk_tolerance == 1:  # Very Conservative
+                    best_idx = 0  # Conservative profile
+                elif risk_tolerance == 2:  # Moderately Conservative
+                    # Lean conservative but consider balanced
+                    best_idx = min(1, len(filtered_options) - 1)
+                elif risk_tolerance == 3:  # Balanced
+                    # Pick middle option when possible
+                    best_idx = min(1, len(filtered_options) - 1)
+                elif risk_tolerance == 4:  # Moderately Aggressive
+                    # Lean growth-focused but consider balanced
+                    best_idx = min(len(filtered_options) - 1, 1)
+                else:  # Aggressive
+                    best_idx = min(2, len(filtered_options) - 1)  # Growth-Focused profile
+                
+                # Adjust based on payment priority preference
+                if payment_priority == 1 and len(filtered_options) > 1:  # Lower Monthly Payment
+                    # Sort by monthly payment, lowest first
+                    filtered_options.sort(key=lambda x: x["monthly"])
+                    best_idx = 0
+                elif payment_priority == 5 and len(filtered_options) > 1:  # Lower Total Interest
+                    # Sort by total interest, lowest first
+                    filtered_options.sort(key=lambda x: x["total_interest"])
+                    best_idx = 0
+                
+                recommended = filtered_options[best_idx]
+                st.session_state.loan_options = filtered_options
+                st.session_state.recommended = recommended
+                
+            # Complete the recommendation with real-world context
+            if 'loan_options' in st.session_state:
+                # Display detailed recommendation
+                rec = st.session_state.recommended
+                
+                # Determine actual bank approval status based on real criteria
+                ltv_status = "Excellent" if rec["ltv_ratio"] < 80 else "Good" if rec["ltv_ratio"] < 90 else "Acceptable"
+                dti_status = "Excellent" if rec["dti_ratio"] < 30 else "Good" if rec["dti_ratio"] < 40 else "Acceptable"
+                
+                # Calculate the full financial impact
+                total_cost = rec["monthly"] * rec["term"] * 12
+                interest_percentage = (rec["total_interest"] / rec["loan_amount"]) * 100
+                
+                # Calculate real-world comparisons
+                interest_savings = options[0]["total_interest"] - rec["total_interest"]
+                monthly_difference = options[0]["monthly"] - rec["monthly"]
+                
+                st.markdown(f"""
+                <div style="background-color: #fff4e6; padding: 20px; border-radius: 8px; border-left: 4px solid {colors['primary']}; margin: 20px 0;">
+                    <h4 style="margin-top: 0; color: {colors['primary']};">Recommended: {rec['name']} Profile</h4>
+                    
+                    <div style="display: flex; margin-bottom: 15px;">
+                        <div style="flex: 1;">
+                            <h5 style="margin-bottom: 10px;">Loan Structure</h5>
+                            <p><strong>Down Payment:</strong> €{rec['down_payment']:,} ({rec['ltv_ratio']:.1f}% LTV)</p>
+                            <p><strong>Loan Amount:</strong> €{rec['loan_amount']:,}</p>
+                            <p><strong>Term:</strong> {rec['term']} years</p>
+                            <p><strong>Interest Rate:</strong> {rec['rate']:.2f}%</p>
+                        </div>
+                        <div style="flex: 1;">
+                            <h5 style="margin-bottom: 10px;">Financial Impact</h5>
+                            <p><strong>Monthly Payment:</strong> €{rec['monthly']:.0f}</p>
+                            <p><strong>Total Cost:</strong> €{total_cost:,.0f}</p>
+                            <p><strong>Total Interest:</strong> €{rec['total_interest']:,.0f} ({interest_percentage:.1f}%)</p>
+                            <p><strong>Payment-to-Income:</strong> {rec['dti_ratio']:.1f}%</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <h5 style="margin-bottom: 10px;">Bank Approval Factors</h5>
+                        <p><strong>Loan-to-Value Ratio:</strong> <span style="color: {'green' if ltv_status == 'Excellent' else 'orange' if ltv_status == 'Good' else '#FF5A00'};">{ltv_status}</span> ({rec['ltv_ratio']:.1f}%)</p>
+                        <p><strong>Debt-to-Income Ratio:</strong> <span style="color: {'green' if dti_status == 'Excellent' else 'orange' if dti_status == 'Good' else '#FF5A00'};">{dti_status}</span> ({rec['dti_ratio']:.1f}%)</p>
+                        <p><strong>Overall Approval Likelihood:</strong> {rec['approval_odds']}</p>
+                    </div>
+                    
+                    <div style="margin-top: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                        <h5 style="margin: 0 0 10px 0;">What This Means For You</h5>
+                        <p style="margin-bottom: 5px;">
+                            With this option, you'll pay <strong>€{rec['monthly']:.0f} per month</strong> for <strong>{rec['term']} years</strong>. 
+                            {
+                                f"This is <strong style='color:green'>€{abs(monthly_difference):.0f} less per month</strong> than the most conservative option, " if monthly_difference > 0 else
+                                f"This is <strong style='color:#E63946'>€{abs(monthly_difference):.0f} more per month</strong> than the most aggressive option, " if monthly_difference < 0 else ""
+                            }
+                            but
+                            {
+                                f" you'll pay <strong style='color:#E63946'>€{abs(interest_savings):.0f} more in total interest</strong> over the life of the loan." if interest_savings < 0 else
+                                f" you'll save <strong style='color:green'>€{abs(interest_savings):.0f} in total interest</strong> over the life of the loan." if interest_savings > 0 else ""
+                            }
+                        </p>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Key benefits and considerations
+                benefit_col, consideration_col = st.columns(2)
+                
+                with benefit_col:
+                    st.markdown(f"""
+                    <div style="padding: 15px; background-color: #f8f9fa; border-radius: 5px; height: 100%;">
+                        <h5 style="color: #4DAA57; margin-top: 0;">Key Benefits</h5>
+                        <ul style="padding-left: 20px; margin-bottom: 0;">
+                            {"".join([f"<li>{benefit}</li>" for benefit in rec["key_benefits"]])}
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with consideration_col:
+                    st.markdown(f"""
+                    <div style="padding: 15px; background-color: #f8f9fa; border-radius: 5px; height: 100%;">
+                        <h5 style="color: #FF9500; margin-top: 0;">Key Considerations</h5>
+                        <ul style="padding-left: 20px; margin-bottom: 0;">
+                            {"".join([f"<li>{consideration}</li>" for consideration in rec["considerations"]])}
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                # Compare all options
+                st.markdown("### Compare All Options")
+                
+                # Create a comparison table with the most relevant metrics
+                comparison_df = pd.DataFrame([
+                    {
+                        "Profile": opt["name"],
+                        "Down Payment": f"€{opt['down_payment']:,}",
+                        "Loan Amount": f"€{opt['loan_amount']:,}",
+                        "Term (years)": opt["term"],
+                        "Interest Rate": f"{opt['rate']}%",
+                        "Monthly Payment": f"€{opt['monthly']:.0f}",
+                        "Total Interest": f"€{opt['total_interest']:,.0f}",
+                        "LTV Ratio": f"{opt['ltv_ratio']:.1f}%",
+                        "Approval": opt["approval_odds"]
+                    } for opt in st.session_state.loan_options
+                ])
+                
+                st.dataframe(comparison_df, hide_index=True, use_container_width=True)
+                
+                # Add real-world bank examples based on the recommended option
+                bank_recommendations = []
+                if rec["ltv_ratio"] < 80 and rec["dti_ratio"] < 35:
+                    bank_recommendations = ["OP Bank", "Nordea", "Danske Bank"]
+                elif rec["ltv_ratio"] < 85 and rec["dti_ratio"] < 40:
+                    bank_recommendations = ["S-Pankki", "Handelsbanken", "Aktia"]
+                else:
+                    bank_recommendations = ["Online mortgage brokers", "Specialized lenders"]
+                
+                st.markdown(f"""
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; font-size: 0.9rem;">
+                    <strong>Real-World Recommendation:</strong> With your financial profile and this loan structure, 
+                    you might consider applying at {', '.join(bank_recommendations)}. 
+                    
+                    <p style="margin-top: 10px;">Finnish lenders typically prefer loan-to-value ratios below 85% and debt-to-income 
+                    ratios below 40%. Your recommended option has {rec['ltv_ratio']:.1f}% LTV and {rec['dti_ratio']:.1f}% DTI, 
+                    making it a {ltv_status.lower()}/{dti_status.lower()} candidate for most lenders.</p>
+                    
+                    <p style="margin-top: 10px;"><strong>Next steps:</strong> Get a pre-approval from at least 2-3 banks to compare rates and terms. 
+                    Ask about both fixed and variable rate options, and any available first-time homebuyer benefits.</p>
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        # Show guidance message when no recommendation has been generated yet
+        if 'loan_options' not in st.session_state:
+            st.info("""
+            Complete your preferences above and click 'Generate My Personalized Recommendation' 
+            to see a detailed analysis of loan options tailored to your situation.
+            """)
+        else:
+            # If recommendations were previously generated, show them again
+            rec = st.session_state.recommended
+            
+            # Determine actual bank approval status based on real criteria
+            ltv_status = "Excellent" if rec["ltv_ratio"] < 80 else "Good" if rec["ltv_ratio"] < 90 else "Acceptable"
+            dti_status = "Excellent" if rec["dti_ratio"] < 30 else "Good" if rec["dti_ratio"] < 40 else "Acceptable"
+            
+            # Calculate the full financial impact
+            total_cost = rec["monthly"] * rec["term"] * 12
+            interest_percentage = (rec["total_interest"] / rec["loan_amount"]) * 100
+            
+            st.markdown(f"""
+            <div style="background-color: #fff4e6; padding: 20px; border-radius: 8px; border-left: 4px solid {colors['primary']}; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: {colors['primary']};">Recommended: {rec['name']} Profile</h4>
+                
+                <div style="display: flex; margin-bottom: 15px;">
+                    <div style="flex: 1;">
+                        <h5 style="margin-bottom: 10px;">Loan Structure</h5>
+                        <p><strong>Down Payment:</strong> €{rec['down_payment']:,} ({rec['ltv_ratio']:.1f}% LTV)</p>
+                        <p><strong>Loan Amount:</strong> €{rec['loan_amount']:,}</p>
+                        <p><strong>Term:</strong> {rec['term']} years</p>
+                        <p><strong>Interest Rate:</strong> {rec['rate']:.2f}%</p>
+                    </div>
+                    <div style="flex: 1;">
+                        <h5 style="margin-bottom: 10px;">Financial Impact</h5>
+                        <p><strong>Monthly Payment:</strong> €{rec['monthly']:.0f}</p>
+                        <p><strong>Total Cost:</strong> €{total_cost:,.0f}</p>
+                        <p><strong>Total Interest:</strong> €{rec['total_interest']:,.0f} ({interest_percentage:.1f}%)</p>
+                        <p><strong>Payment-to-Income:</strong> {rec['dti_ratio']:.1f}%</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <h5 style="margin-bottom: 10px;">Bank Approval Factors</h5>
+                    <p><strong>Loan-to-Value Ratio:</strong> <span style="color: {'green' if ltv_status == 'Excellent' else 'orange' if ltv_status == 'Good' else '#FF5A00'};">{ltv_status}</span> ({rec['ltv_ratio']:.1f}%)</p>
+                    <p><strong>Debt-to-Income Ratio:</strong> <span style="color: {'green' if dti_status == 'Excellent' else 'orange' if dti_status == 'Good' else '#FF5A00'};">{dti_status}</span> ({rec['dti_ratio']:.1f}%)</p>
+                    <p><strong>Overall Approval Likelihood:</strong> {rec['approval_odds']}</p>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Note about updating preferences
+            st.markdown("""
+            <div style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                You can adjust your preferences above and generate a new recommendation if your financial priorities have changed.
+            </div>
+            """, unsafe_allow_html=True)
+
+# Function for the Financial Risk Simulator
+def render_financial_risk_simulator():
+    st.subheader("Financial Risk Simulator")
+    
+    st.markdown("""
+    This simulator helps you understand how different life events might impact your financial situation.
+    See how well your current finances would handle these common scenarios.
+    """)
+    
+    # Define realistic risk scenarios
+    risk_scenarios = {
+        "Divorce": {
+            "income_change": -40,
+            "expense_change": +25,
+            "description": "Separation typically causes a significant drop in household income while expenses may increase due to maintaining two households, legal fees, and other separation costs."
+        },
+        "Having a Child": {
+            "income_change": -15,
+            "expense_change": +20,
+            "description": "Having a child often leads to temporary income reduction (parental leave) and increased expenses for childcare, healthcare, food, clothing, etc."
+        },
+        "Job Loss": {
+            "income_change": -70,
+            "expense_change": -10,
+            "description": "Losing your job results in a major income drop, partially offset by unemployment benefits. Some expenses might be reduced due to budget cuts."
+        },
+        "Medical Emergency": {
+            "income_change": -20,
+            "expense_change": +15,
+            "description": "A serious health issue can reduce your ability to work while increasing out-of-pocket medical expenses, even with insurance coverage."
+        },
+        "Housing Market Crash": {
+            "income_change": -5,
+            "expense_change": +0,
+            "rate_change": +2.0,
+            "description": "A market crash doesn't directly affect income, but if you have a variable-rate mortgage, interest rates might rise significantly, increasing monthly payments."
+        },
+        "Unexpected Home Repairs": {
+            "income_change": 0,
+            "expense_change": +15,
+            "description": "Major repairs like roof replacement, plumbing issues, or foundation problems can create significant unexpected expenses."
+        }
+    }
+    
+    # Let user select scenario to analyze
+    selected_scenario = st.selectbox(
+        "Select a life event to simulate:",
+        list(risk_scenarios.keys())
+    )
+    
+    scenario = risk_scenarios[selected_scenario]
+    
+    # Display scenario details
+    st.markdown(f"""
+    ### {selected_scenario} Scenario
+    
+    **Description:** {scenario['description']}
+    
+    **Financial Impact:**
+    - Income change: {scenario['income_change']}%
+    - Expense change: {scenario['expense_change']}%
+    {f"- Interest rate change: +{scenario['rate_change']}%" if 'rate_change' in scenario else ""}
+    """)
+    
+    # Calculate the financial impact
+    original_income = financial_vars["monthly_income"]
+    original_expenses = financial_vars["monthly_expenses"]
+    original_payment = monthly_payment
+    
+    # Calculate new values
+    new_income = original_income * (1 + scenario['income_change']/100)
+    new_expenses = original_expenses * (1 + scenario['expense_change']/100)
+    
+    # Calculate new payment if interest rate changes
+    new_payment = original_payment
+    if 'rate_change' in scenario:
+        new_rate = financial_vars["interest_rate"] + scenario['rate_change']
+        new_payment = (la * (new_rate/100/12) * (1 + new_rate/100/12)**(lt*12)) / ((1 + new_rate/100/12)**(lt*12) - 1)
+    
+    # Calculate financial health indicators
+    original_leftover = original_income - original_expenses - original_payment - monthly_maintenance - renovation_cost_monthly
+    new_leftover = new_income - new_expenses - new_payment - monthly_maintenance - renovation_cost_monthly
+    
+    original_dti = (original_payment / original_income) * 100
+    new_dti = (new_payment / new_income) * 100
+    
+    # Display comparison
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### Before")
+        st.markdown(f"""
+        - **Monthly Income:** €{original_income:.0f}
+        - **Monthly Expenses:** €{original_expenses:.0f}
+        - **Loan Payment:** €{original_payment:.0f}
+        - **Housing Costs:** €{monthly_maintenance + renovation_cost_monthly:.0f}
+        - **Leftover:** €{original_leftover:.0f}
+        - **Payment-to-Income Ratio:** {original_dti:.1f}%
+        """)
+    
+    with col2:
+        st.markdown("### After")
+        leftover_color = "green" if new_leftover > 0 else "red"
+        dti_color = "green" if new_dti < 40 else "orange" if new_dti < 50 else "red"
+        
+        st.markdown(f"""
+        - **Monthly Income:** €{new_income:.0f}
+        - **Monthly Expenses:** €{new_expenses:.0f}
+        - **Loan Payment:** €{new_payment:.0f}
+        - **Housing Costs:** €{monthly_maintenance + renovation_cost_monthly:.0f}
+        - **Leftover:** <span style="color:{leftover_color}">€{new_leftover:.0f}</span>
+        - **Payment-to-Income Ratio:** <span style="color:{dti_color}">{new_dti:.1f}%</span>
+        """, unsafe_allow_html=True)
+    
+    # Risk assessment
+    if new_leftover < 0:
+        st.error(f"**High Risk**: This scenario would create a monthly deficit of €{abs(new_leftover):.0f}. You would need savings or additional income to cover expenses.")
+    elif new_leftover < 300:
+        st.warning(f"**Moderate Risk**: This scenario leaves you with very little buffer (€{new_leftover:.0f}/month). Consider building an emergency fund.")
+    else:
+        st.success(f"**Low Risk**: Your finances could likely handle this scenario with €{new_leftover:.0f} left over each month.")
+    
+    # Recommendations
+    st.markdown("### Preparation Recommendations")
+    
+    if selected_scenario == "Divorce":
+        st.markdown("""
+        - Build an emergency fund covering 6+ months of expenses
+        - Consider income protection insurance
+        - Maintain your own credit history and some separate finances
+        - Understand all joint financial commitments
+        """)
+    elif selected_scenario == "Having a Child":
+        st.markdown("""
+        - Save for parental leave periods before having children
+        - Research childcare costs and options in your area
+        - Check eligibility for family benefits and tax deductions
+        - Consider life and health insurance updates
+        """)
+    elif selected_scenario == "Job Loss":
+        st.markdown("""
+        - Build an emergency fund covering 6+ months of expenses
+        - Keep skills updated and network active
+        - Consider unemployment insurance options
+        - Have a budget-cutting plan ready for essential vs non-essential expenses
+        """)
+    elif selected_scenario == "Medical Emergency":
+        st.markdown("""
+        - Ensure adequate health insurance coverage
+        - Build an emergency fund for out-of-pocket expenses
+        - Consider income protection/disability insurance
+        - Understand your sick leave entitlements
+        """)
+    elif selected_scenario == "Housing Market Crash":
+        st.markdown("""
+        - Consider fixed-rate mortgage options
+        - Don't overextend on housing debt
+        - Have a plan for handling increased payments
+        - Build equity by paying down principal when possible
+        """)
+    elif selected_scenario == "Unexpected Home Repairs":
+        st.markdown("""
+        - Build a dedicated home maintenance fund (1-3% of home value annually)
+        - Get regular home inspections and maintenance
+        - Consider home warranty coverage for major systems
+        - Maintain adequate home insurance
+        """)
+
+def render_payment_analysis():
     st.markdown("<h2>Payment Analysis</h2>", unsafe_allow_html=True)
     
     st.markdown("### Monthly Payment Breakdown")
@@ -398,79 +1479,126 @@ with tab2:
             payment_data, 
             names="Category", 
             values="Amount",
-            color_discrete_sequence=[colors['primary'], colors['secondary'], colors['warning']]
+            color_discrete_sequence=[colors['primary'], colors['secondary'], colors['warning']],
+            title="Monthly Housing Cost Breakdown"
         )
-        fig_payment.update_traces(textposition='inside', textinfo='percent+label')
-        fig_payment.update_layout(height=300, margin=dict(t=0, b=0, l=0, r=0))
+        fig_payment.update_traces(
+            textposition='inside', 
+            textinfo='percent+label',
+            textfont=dict(color="white", size=14),
+            pull=[0.05, 0, 0]
+        )
+        fig_payment.update_layout(
+            height=350, 
+            margin=dict(t=50, b=20, l=20, r=20),
+            title_font_size=16,
+            font_family="Calibri Light"
+        )
         st.plotly_chart(fig_payment, use_container_width=True)
     
     with col_payment2:
-        st.markdown(f"""
-        <div class="kpi-container" style="margin-top: 20px;">
-            <div class="kpi-value">€{total_monthly:.0f}</div>
-            <div class="kpi-label">Total Monthly Housing Cost</div>
-            <div style="margin-top: 15px;">
-                <p><strong>Loan Payment:</strong> €{monthly_payment:.0f}</p>
-                <p><strong>Maintenance Fee:</strong> €{monthly_maintenance:.0f}</p>
-                <p><strong>Renovation Reserve:</strong> €{renovation_cost_monthly:.0f}</p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"### Total Monthly Housing Cost: €{total_monthly:.0f}")
+        
+        payment_breakdown = pd.DataFrame([
+            {"Category": "Loan Payment", "Amount": f"€{monthly_payment:.0f}"},
+            {"Category": "Maintenance Fee", "Amount": f"€{monthly_maintenance:.0f}"},
+            {"Category": "Renovation Reserve", "Amount": f"€{renovation_cost_monthly:.0f}"}
+        ])
+        
+        st.table(payment_breakdown)
     
-    st.markdown("### Loan Term Options")
+    st.markdown("### Amortization Schedule")
+    periods = lt * 12
+    monthly_interest_rate = ir / 100 / 12
+    balance = la
+    amortization_data = []
     
-    terms = [15, 20, 25, 30]
-    term_data = []
-    for term in terms:
-        term_monthly = (la * (ir/100/12) * (1 + ir/100/12)**(term*12)) / ((1 + ir/100/12)**(term*12) - 1)
-        term_total_interest = term_monthly * term * 12 - la
-        term_data.append({
-            "Term (years)": term, 
-            "Monthly Payment": term_monthly, 
-            "Total Interest": term_total_interest,
-            "Total Cost": term_monthly * term * 12,
+    for period in range(1, periods + 1):
+        interest_payment = balance * monthly_interest_rate
+        principal_payment = monthly_payment - interest_payment
+        balance -= principal_payment
+        amortization_data.append({
+            "Month": period,
+            "Principal": principal_payment,
+            "Interest": interest_payment,
+            "Balance": max(balance, 0)
         })
+        if balance <= 0:
+            break
     
-    term_df = pd.DataFrame(term_data)
+    amortization_df = pd.DataFrame(amortization_data)
     
-    fig_terms = px.bar(
-        term_df,
-        x="Term (years)",
-        y="Monthly Payment",
-        title="Effect of Loan Term on Monthly Payment",
-        color_discrete_sequence=[colors['primary']]
+    fig_amort = go.Figure()
+    fig_amort.add_trace(go.Scatter(x=amortization_df["Month"], y=amortization_df["Principal"], name="Principal", line=dict(color=colors['primary'])))
+    fig_amort.add_trace(go.Scatter(x=amortization_df["Month"], y=amortization_df["Interest"], name="Interest", line=dict(color=colors['secondary'])))
+    fig_amort.update_layout(
+        title="Loan Amortization Over Time",
+        xaxis_title="Month",
+        yaxis_title="Amount (€)",
+        height=400,
+        legend=dict(x=0.1, y=0.9),
+        font_family="Calibri Light"
     )
-    fig_terms.update_layout(height=300)
-    st.plotly_chart(fig_terms, use_container_width=True)
-    
-    term_display = term_df.copy()
-    term_display["Monthly Payment"] = term_display["Monthly Payment"].round().astype(int).apply(lambda x: f"€{x:,}")
-    term_display["Total Interest"] = term_display["Total Interest"].round().astype(int).apply(lambda x: f"€{x:,}")
-    term_display["Total Cost"] = term_display["Total Cost"].round().astype(int).apply(lambda x: f"€{x:,}")
-    st.dataframe(term_display, hide_index=True, use_container_width=True)
-    
-    st.markdown("### Interest Rate Sensitivity")
-    
-    rates = [ir, ir + 1, ir + 2, ir + 3]
-    rate_data = []
-    for rate in rates:
-        rate_monthly = (la * (rate/100/12) * (1 + rate/100/12)**(lt*12)) / ((1 + rate/100/12)**(lt*12) - 1)
-        rate_data.append({
-            "Interest Rate": f"{rate}%", 
-            "Monthly Payment": rate_monthly, 
-            "Increase": rate_monthly - monthly_payment,
-            "% of Income": rate_monthly / mi * 100
-        })
-    
-    rate_df = pd.DataFrame(rate_data)
-    
-    rates_display = rate_df.copy()
-    rates_display["Monthly Payment"] = rates_display["Monthly Payment"].round().astype(int).apply(lambda x: f"€{x:,}")
-    rates_display["Increase"] = rates_display["Increase"].round().astype(int).apply(lambda x: f"€{x:,}")
-    rates_display["% of Income"] = rates_display["% of Income"].round(1).astype(str) + "%"
-    st.dataframe(rates_display, hide_index=True, use_container_width=True)
+    st.plotly_chart(fig_amort, use_container_width=True)
 
-# -------------------- TAB 3: PROPERTY ANALYSIS --------------------
+# Also update the improved monthly housing costs function for property details tab
+def render_improved_monthly_housing_costs():
+    st.markdown("### Monthly Housing Costs")
+    
+    col1, col2 = st.columns([3, 2])
+    
+    total_monthly_housing = monthly_maintenance + renovation_cost_monthly
+    
+    with col1:
+        st.metric("Total Monthly Maintenance", f"€{total_monthly_housing:.0f}")
+        
+        st.markdown("#### Monthly Cost Breakdown")
+        
+        housing_costs = pd.DataFrame([
+            {"Cost Type": "Maintenance Fee", "Amount": f"€{monthly_maintenance:.0f}", "Description": "Standard monthly fee paid to the housing company"},
+            {"Cost Type": "Renovation Reserve", "Amount": f"€{renovation_cost_monthly:.0f}", "Description": "Recommended monthly savings for upcoming renovations"}
+        ])
+        
+        st.table(housing_costs)
+    
+    with col2:
+        st.markdown("#### Understanding Housing Costs")
+        st.markdown("• **Maintenance Fee:** Paid monthly to the housing company for building upkeep, water, and common area maintenance.")
+        st.markdown("• **Renovation Reserve:** Recommended savings for planned renovations. This helps avoid future financial surprises.")
+        st.markdown("• **Total Cost:** The combined monthly expense beyond your mortgage payment.")
+        
+        st.info("**Pro Tip:** In Finland, older buildings often have lower purchase prices but higher maintenance fees and renovation needs.")
+
+# -------------------- TAB STRUCTURE --------------------
+tab1, tab2, tab3 = st.tabs(["Loan Decision Center", "Payment Analysis", "Property Details"])
+
+# -------------------- TAB 1: LOAN DECISION CENTER WITH SUBTABS --------------------
+with tab1:
+    # Create subtabs to organize the content better - now includes the Financial Risk Simulator
+    summary_subtab, calculator_subtab, recommender_subtab, risk_simulator_subtab = st.tabs([
+        "Financial Impact", 
+        "Loan Calculator", 
+        "Loan Setup Recommender",
+        "Financial Risk Simulator"
+    ])
+    
+    with summary_subtab:
+        render_financial_summary()
+    
+    with calculator_subtab:
+        render_loan_calculator()
+    
+    with recommender_subtab:
+        render_loan_recommender()
+        
+    with risk_simulator_subtab:
+        render_financial_risk_simulator()
+
+# -------------------- TAB 2: PAYMENT ANALYSIS --------------------
+with tab2:
+    render_payment_analysis()
+
+# -------------------- TAB 3: PROPERTY DETAILS --------------------
 with tab3:
     st.markdown("<h2>Property Details</h2>", unsafe_allow_html=True)
     
@@ -492,14 +1620,8 @@ with tab3:
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown("### Monthly Housing Costs")
-        st.markdown(f"""
-        <div class="kpi-container">
-            <div class="kpi-value">€{monthly_maintenance + renovation_cost_monthly:.0f}</div>
-            <div class="kpi-label">Total Monthly Maintenance</div>
-            <div class="kpi-trend">Includes €{renovation_cost_monthly:.0f} renovation reserve</div>
-        </div>
-        """, unsafe_allow_html=True)
+        # Improved Monthly Housing Costs section
+        render_improved_monthly_housing_costs()
         
         if property_data["upcoming_renovations"]:
             with st.expander("View Upcoming Renovations Timeline & Insights"):
@@ -605,196 +1727,3 @@ with tab3:
         })
         
         st.map(map_data, zoom=13)
-
-
-with tab4:
-    # Header
-    st.markdown("<h2 style='text-align: center;'>Smart Loan Optimizer</h2>", unsafe_allow_html=True)
-    st.markdown("""
-        <div style='text-align: center; margin-bottom: 20px;'>
-            This tool uses machine learning to optimize your loan structure by:<br>
-            1. Minimizing financial strain risk<br>
-            2. Maximizing bank approval chances<br>
-            3. Balancing monthly payments with total interest
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Two-column layout
-    col_left, col_right = st.columns([1, 1], gap="large")
-
-    # Left Column: Preferences/Input
-    with col_left:
-        st.markdown("## Set Your Preferences")
-        
-        # Risk Profile
-        st.markdown("### Risk Profile")
-        risk_tolerance = st.slider(
-            "Risk Tolerance", 
-            min_value=1, 
-            max_value=5, 
-            value=3, 
-            help="1 = Very Conservative, 5 = Aggressive",
-            format="%d"
-        )
-        payment_priority = st.slider(
-            "Payment Priority", 
-            min_value=1, 
-            max_value=5, 
-            value=3,
-            help="1 = Minimize Monthly Payment, 5 = Minimize Total Interest",
-            format="%d"
-        )
-
-        # Constraints
-        st.markdown("### Constraints")
-        max_monthly = st.number_input(
-            "Maximum Monthly Payment (€)", 
-            value=int(monthly_payment * 1.2),
-            step=100,
-            min_value=0
-        )
-        target_approval = st.selectbox(
-            "Target Approval Odds", 
-            ["Very High (95%+)", "High (80-95%)", "Moderate (65-80%)", "Flexible"],
-            index=1
-        )
-
-        # Optimization Button
-        st.markdown("<div style='margin: 20px 0;'></div>", unsafe_allow_html=True)
-        if st.button("Generate Optimized Loan Options", use_container_width=True):
-            with st.spinner("Running optimization algorithm..."):
-                time.sleep(2)
-                
-                # Starting parameters (assumes la, dp, lt, ir are defined elsewhere)
-                orig_loan = la
-                orig_down = dp
-                orig_term = lt
-                
-                # Generate options
-                options = [
-                    {
-                        "name": "Conservative",
-                        "down_payment": dp + 20000,
-                        "loan_amount": la - 20000,
-                        "term": max(lt - 5, 15),
-                        "rate": max(ir - 0.3, 2.8),
-                        "monthly": 0,
-                        "total_interest": 0,
-                        "approval_odds": "Very High (95%+)",
-                        "risk_score": "Low Risk"
-                    },
-                    {
-                        "name": "Balanced",
-                        "down_payment": dp + 10000,
-                        "loan_amount": la - 10000,
-                        "term": lt,
-                        "rate": max(ir - 0.15, 3.0),
-                        "monthly": 0,
-                        "total_interest": 0,
-                        "approval_odds": "High (80-95%)",
-                        "risk_score": "Moderate Risk"
-                    },
-                    {
-                        "name": "Aggressive",
-                        "down_payment": dp,
-                        "loan_amount": la,
-                        "term": min(lt + 3, 30),
-                        "rate": ir,
-                        "monthly": 0,
-                        "total_interest": 0,
-                        "approval_odds": "Moderate (65-80%)",
-                        "risk_score": "Moderate Risk"
-                    }
-                ]
-                
-                # Calculate monthly payments and total interest
-                for opt in options:
-                    opt["monthly"] = (opt["loan_amount"] * (opt["rate"]/100/12) * 
-                                    (1 + opt["rate"]/100/12)**(opt["term"]*12)) / \
-                                    ((1 + opt["rate"]/100/12)**(opt["term"]*12) - 1)
-                    opt["total_interest"] = opt["monthly"] * opt["term"] * 12 - opt["loan_amount"]
-                
-                # Filter options
-                filtered_options = [
-                    opt for opt in options 
-                    if opt["monthly"] <= max_monthly and
-                    (target_approval == "Flexible" or opt["approval_odds"] == target_approval)
-                ]
-                
-                if not filtered_options:
-                    st.warning("No options match your constraints. Please adjust your parameters.")
-                else:
-                    best_idx = min(risk_tolerance - 1, len(filtered_options) - 1)
-                    recommended = filtered_options[best_idx]
-                    st.session_state.loan_options = filtered_options
-                    st.session_state.recommended = recommended
-
-    # Right Column: Results/Output
-    with col_right:
-        st.markdown("## Optimization Results")
-        
-        if 'loan_options' not in st.session_state:
-            st.info("Set preferences and generate options on the left to see results.")
-        else:
-            # Recommended Option
-            rec = st.session_state.recommended
-            st.markdown(f"""
-                ### Recommended: {rec['name']} Option
-                <div style='background-color: #f0f2f6; padding: 15px; border-radius: 5px;'>
-                    <p><strong>Down Payment:</strong> €{rec['down_payment']:,} ({(rec['down_payment'] / (rec['loan_amount'] + rec['down_payment']) * 100):.1f}%)</p>
-                    <p><strong>Loan Amount:</strong> €{rec['loan_amount']:,}</p>
-                    <p><strong>Term:</strong> {rec['term']} years</p>
-                    <p><strong>Interest Rate:</strong> {rec['rate']:.2f}%</p>
-                    <p><strong>Monthly Payment:</strong> €{rec['monthly']:.0f}</p>
-                    <p><strong>Approval Odds:</strong> {rec['approval_odds']}</p>
-                    <p><strong>Risk Assessment:</strong> {rec['risk_score']}</p>
-                </div>
-            """, unsafe_allow_html=True)
-
-            # Comparison Chart
-            st.markdown("### Compare All Options")
-            options_df = pd.DataFrame(st.session_state.loan_options)
-            
-            fig_comparison = go.Figure()
-            fig_comparison.add_trace(go.Bar(
-                x=options_df["name"],
-                y=options_df["monthly"],
-                name="Monthly Payment (€)",
-                marker_color='#1f77b4'
-            ))
-            fig_comparison.add_trace(go.Scatter(
-                x=options_df["name"],
-                y=options_df["total_interest"],
-                name="Total Interest (€)",
-                marker_color='#ff7f0e',
-                mode="lines+markers",
-                yaxis="y2"
-            ))
-            
-            fig_comparison.update_layout(
-                title="Monthly Payment vs Total Interest",
-                yaxis=dict(title="Monthly Payment (€)"),
-                yaxis2=dict(title="Total Interest (€)", overlaying="y", side="right"),
-                height=400,
-                margin=dict(t=50, b=50),
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-            )
-            st.plotly_chart(fig_comparison, use_container_width=True)
-
-            # Explanation
-            st.markdown("### Why This Recommendation?")
-            explanations = {
-                "Conservative": """
-                    Ideal for safety-focused borrowers who want quick equity buildup and lower interest costs.
-                    Best if you have ample savings and prioritize financial security.
-                """,
-                "Balanced": """
-                    Perfect middle ground offering affordable payments while managing total interest.
-                    Great for maintaining flexibility with high approval likelihood.
-                """,
-                "Aggressive": """
-                    Maximizes purchasing power with lower upfront costs and extended terms.
-                    Suits those comfortable with longer commitments and potential investment opportunities.
-                """
-            }
-            st.markdown(explanations[rec["name"]])
