@@ -903,7 +903,7 @@ def render_financial_summary():
     # Key financial indicators
     st.markdown("### Financial Overview")
     
-    col1, col2 = st.columns([2,1])
+    col1, col2 = st.columns([1,1])
     with col1:
         with st.container(border=True):
             kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
