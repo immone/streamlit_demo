@@ -1761,7 +1761,7 @@ def render_loan_calculator():
             </div>
             """
             
-            st.html(term_table_html)
+            #st.html(term_table_html)
             
             # Also display the original dataframe for comparison functionality
             term_display = term_df.copy()
