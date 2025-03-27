@@ -1641,9 +1641,9 @@ def render_loan_calculator():
     st.subheader("Personal Budget Calculator")
     
     with st.container(border=True):
-        col_img, col_text = st.columns([0.5, 3])
+        col_img, col_text = st.columns([0.5, 3.5])
         with col_img:
-            st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=150)
+            st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/spending%20analysis.png?raw=true", width=150)
         
         with col_text:
             st.markdown("""
@@ -2040,7 +2040,7 @@ def render_financial_risk_simulator():
             col_img, col_text = st.columns([0.5, 3])
             
             with col_img:
-                st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=300)
+                st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/financial%20dashboard.png?raw=true", width=300)
                 
             with col_text:
                 st.markdown("""
