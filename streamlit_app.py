@@ -1050,14 +1050,16 @@ def render_financial_summary():
             # User avatar and profile data
             st.markdown("""
             <div style="text-align: center; margin-bottom: 15px;">
-                <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=Felix" 
-                     style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #FF9500;" 
-                     alt="Profile Avatar">
+                <div style="display: flex; justify-content: center;">
+                    <img src="https://raw.githubusercontent.com/immone/streamlit_demo_small/main/assets/kuva.jpeg" 
+                        style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #FF9500; object-fit: cover; flex-shrink: 0;" 
+                        alt="Profile Avatar">
+                </div>
                 <h4 style="margin: 10px 0 5px 0; font-family: 'Calibri Light', sans-serif; font-weight: 400;">Marty McFly</h4>
                 <div style="font-size: 13px; color: #708090;">OP Premium Customer</div>
             </div>
             """, unsafe_allow_html=True)
-            
+                
             # Financial health progress bars
             st.html(f"""
             <div style="margin-bottom: 15px;">
