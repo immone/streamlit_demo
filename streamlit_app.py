@@ -883,7 +883,7 @@ def render_financial_summary():
     payment_to_income_ratio = (loan_payment / monthly_income) * 100
     
     # Key financial indicators
-    st.markdown("### Key Financial Indicators")
+    st.markdown("### Financial Overview")
     
     col1, col2 = st.columns([1.5,1])
     with col1:
@@ -1026,8 +1026,6 @@ def render_financial_summary():
             st.html(finance_html)
             st.html(wealth_html)
             st.html(loan_html)
-        
-    st.markdown("### Profile and Parameters")
 
     with col2:
         with st.container(border=True):
@@ -2893,7 +2891,7 @@ if not tab1:
 with tab1:
     # Create subtabs to organize the content better - now includes the Financial Risk Simulator
     summary_subtab, calculator_subtab, recommender_subtab, risk_simulator_subtab = st.tabs([
-        "Financial Impact", 
+        "Financial Overview", 
         "Loan Calculator", 
         "Loan Setup Recommender",
         "Financial Risk Simulator"
