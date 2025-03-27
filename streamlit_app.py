@@ -304,13 +304,421 @@ def render_loan_recommender():
     # Header with clearer explanation
     st.subheader("Personalized Loan Setup Recommendations")
     # Create subtabs within the loan recommender
-    with st.container(border=True):
-        # First subtab: ALL information and inputs
-        info_subtab, recommendation_subtab = st.tabs(["Loan Information", "Loan Recommendation"])
-        with info_subtab:
-            # Add image placeholder in the left corner
-            col_img, col_text = st.columns([0.5, 3])
+    info_subtab, recommendation_subtab = st.tabs(["Loan Information", "Loan Recommendation"])
+    with info_subtab:
+        with st.container(border=True):
+            # First subtab: ALL information and inputs
+                # Add image placeholder in the left corner
+                col_img, col_text = st.columns([0.5, 3])
+                
+                with col_img:
+                    st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=175)
+                
+                with col_text:
+                    st.markdown("""
+                    <div class="bank-widget" style="padding: 20px; margin-bottom: 20px;">
+                        <strong>What is this tool?</strong> 
+                        <br>
+                        <br>
+                        Analyzes your financial situation to recommend the optimal loan structure based on your priorities and real-world banking criteria.
+                        <br>
+                        Our recommendations are based on Finnish banking standards and financial best practices, not just estimates. We factor in your debt-to-income ratio, loan-to-value ratio, and overall financial health.
+                    </div>
+                    """, unsafe_allow_html=True)
+
+        # Explain the options in more digestible format with concrete examples
+        st.markdown("### Common Loan Profiles in Finland")
+
+        with st.container(border=True):
+
+            profile_col1, profile_col2, profile_col3 = st.columns(3)
             
+            # Calculate concrete examples based on the user's actual loan amount
+            conservative_down = max(dp + 20000, 0.25 * (la + dp))
+            conservative_loan = (la + dp) - conservative_down
+            conservative_term = max(lt - 5, 15)
+            conservative_rate = max(ir - 0.3, 2.8)
+            conservative_monthly = (conservative_loan * (conservative_rate/100/12) * (1 + conservative_rate/100/12)**(conservative_term*12)) / ((1 + conservative_rate/100/12)**(conservative_term*12) - 1)
+            
+            balanced_down = max(dp + 10000, 0.20 * (la + dp))
+            balanced_loan = (la + dp) - balanced_down
+            balanced_term = lt
+            balanced_rate = max(ir - 0.15, 3.0)
+            balanced_monthly = (balanced_loan * (balanced_rate/100/12) * (1 + balanced_rate/100/12)**(balanced_term*12)) / ((1 + balanced_rate/100/12)**(balanced_term*12) - 1)
+            
+            growth_down = max(dp, 0.15 * (la + dp))
+            growth_loan = (la + dp) - growth_down
+            growth_term = min(lt + 3, 30)
+            growth_rate = ir
+            growth_monthly = (growth_loan * (growth_rate/100/12) * (1 + growth_rate/100/12)**(growth_term*12)) / ((1 + growth_rate/100/12)**(growth_term*12) - 1)
+            
+            # Use bank-style cards for each profile
+            with profile_col1:
+                st.markdown(f"""
+                <div class="bank-card">
+                    <div class="bank-card-header">
+                        <span class="bank-card-title" style="color: #4DAA57;">Conservative Profile</span>
+                    </div>
+                    <ul style="padding-left: 15px; margin-bottom: 10px;">
+                        <li><strong>Down payment:</strong> €{conservative_down:,.0f} (25%+)</li>
+                        <li><strong>Loan amount:</strong> €{conservative_loan:,.0f}</li>
+                        <li><strong>Term:</strong> {conservative_term} years</li>
+                        <li><strong>Monthly payment:</strong> €{conservative_monthly:.0f}</li>
+                        <li><strong>Interest rate:</strong> Typically {conservative_rate}%</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A family with €80,000 in savings choosing a 15-year loan with lower total interest costs.</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+            with profile_col2:
+                st.markdown(f"""
+                <div class="bank-card">
+                    <div class="bank-card-header">
+                        <span class="bank-card-title" style="color: #FF9500;">Balanced Profile</span>
+                    </div>
+                    <ul style="padding-left: 15px; margin-bottom: 10px;">
+                        <li><strong>Down payment:</strong> €{balanced_down:,.0f} (20%)</li>
+                        <li><strong>Loan amount:</strong> €{balanced_loan:,.0f}</li>
+                        <li><strong>Term:</strong> {balanced_term} years</li>
+                        <li><strong>Monthly payment:</strong> €{balanced_monthly:.0f}</li>
+                        <li><strong>Interest rate:</strong> Typically {balanced_rate}%</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A couple with €70,000 savings choosing a 25-year loan with balanced payments vs. interest.</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+            with profile_col3:
+                st.markdown(f"""
+                <div class="bank-card">
+                    <div class="bank-card-header">
+                        <span class="bank-card-title" style="color: #FF5A00;">Growth-Focused Profile</span>
+                    </div>
+                    <ul style="padding-left: 15px; margin-bottom: 10px;">
+                        <li><strong>Down payment:</strong> €{growth_down:,.0f} (15%)</li>
+                        <li><strong>Loan amount:</strong> €{growth_loan:,.0f}</li>
+                        <li><strong>Term:</strong> {growth_term} years</li>
+                        <li><strong>Monthly payment:</strong> €{growth_monthly:.0f}</li>
+                        <li><strong>Interest rate:</strong> Typically {growth_rate}%</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A young professional with €50,000 savings choosing a 30-year loan to minimize monthly payments.</p>
+                </div>
+                """, unsafe_allow_html=True)
+            
+        # Simplify the inputs - more guided approach with real examples
+        st.markdown("### What's Your Financial Priority?")
+
+        with st.container(border=True):
+
+            priority_option = st.radio(
+                "Choose what matters most to you:",
+                ["Lower Monthly Payments", "Balanced Approach", "Lower Total Interest Costs"],
+                index=1,
+                key="recommender_priority_option"
+            )
+                
+            # Map the selection to the slider value
+            if priority_option == "Lower Monthly Payments":
+                payment_priority = 1
+                st.markdown(f"""
+                <div class="bank-notice">
+                    <strong>What this means:</strong> You'll get a longer loan term (25-30 years) with 
+                    lower monthly payments (around €{growth_monthly:.0f}/month in your case), but will pay more in total interest over time.
+                </div>
+                """, unsafe_allow_html=True)
+            elif priority_option == "Balanced Approach":
+                payment_priority = 3
+                st.markdown(f"""
+                <div class="bank-notice">
+                    <strong>What this means:</strong> You'll get a moderate loan term (around 25 years) 
+                    with reasonable monthly payments (around €{balanced_monthly:.0f}/month in your case) and moderate total interest costs.
+                </div>
+                """, unsafe_allow_html=True)
+            else:  # Lower Total Interest
+                payment_priority = 5
+                st.markdown(f"""
+                <div class="bank-notice">
+                    <strong>What this means:</strong> You'll get a shorter loan term (15-20 years) with 
+                    higher monthly payments (around €{conservative_monthly:.0f}/month in your case), but will save significantly on total interest.
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("### How comfortable are you with financial risk?")    
+        with st.container(border=True):
+            
+            risk_option = st.radio(
+                "Choose your comfort level with financial stretching:",
+                ["Very Conservative", "Moderately Conservative", "Balanced", "Moderately Aggressive", "Aggressive"],
+                index=2,
+                key="recommender_risk_option"
+            )
+            
+            # Map the selection to risk tolerance value
+            risk_mapping = {
+                "Very Conservative": 1,
+                "Moderately Conservative": 2,
+                "Balanced": 3,
+                "Moderately Aggressive": 4,
+                "Aggressive": 5
+            }
+            
+            risk_tolerance = risk_mapping[risk_option]
+            
+            # Show risk implications with concrete numbers
+            if risk_option == "Very Conservative" or risk_option == "Moderately Conservative":
+                st.markdown(f"""
+                <div class="bank-notice" style="border-left: 4px solid #4DAA57;">
+                    <strong>What this means:</strong> You prefer financial security with higher down 
+                    payments (€{conservative_down:,.0f}+) and lower loan-to-value ratios (under 75%). This gives you better interest 
+                    rates and less risk if property values decline.
+                </div>
+                """, unsafe_allow_html=True)
+            elif risk_option == "Balanced":
+                st.markdown(f"""
+                <div class="bank-notice" style="border-left: 4px solid #FF9500;">
+                    <strong>What this means:</strong> You prefer a moderate approach with standard down 
+                    payments (around €{balanced_down:,.0f} or 20%) and conventional loan terms. This balances financial security with 
+                    keeping cash available for other needs.
+                </div>
+                """, unsafe_allow_html=True)
+            else:  # Aggressive options
+                st.markdown(f"""
+                <div class="bank-notice" style="border-left: 4px solid #FF5A00;">
+                    <strong>What this means:</strong> You're comfortable with higher financial leverage, 
+                    using lower down payments (around €{growth_down:,.0f} or 15%) and longer terms to maximize cash flow and investment 
+                    potential elsewhere.
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Constraints section with better guidance
+        st.markdown("### Financial Constraints")
+
+        # Show the current calculated monthly payment
+        current_monthly = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
+
+        # Calculate percentages of income for different payment levels
+        low_payment = current_monthly * 0.8
+        low_payment_pct = (low_payment / mi) * 100
+
+        high_payment = current_monthly * 1.2
+        high_payment_pct = (high_payment / mi) * 100
+
+        current_payment_pct = (current_monthly / mi) * 100
+
+        with st.container(border=True):
+
+            st.markdown(f"""
+            <div class="bank-widget" style="margin-bottom: 15px;">
+                <strong>Current Calculated Monthly Payment:</strong> €{current_monthly:.0f} ({current_payment_pct:.1f}% of your income)
+            </div>
+            """, unsafe_allow_html=True)
+            
+            max_monthly = st.slider(
+                "Maximum Comfortable Monthly Payment (€)", 
+                min_value=int(current_monthly * 0.7),
+                max_value=int(current_monthly * 1.5),
+                value=int(current_monthly * 1.1),
+                step=50,
+                key="recommender_max_payment"
+            )
+            
+            # Show what percentage of income the selected payment is
+            selected_payment_pct = (max_monthly / mi) * 100
+            payment_assessment = "good" if selected_payment_pct < 30 else "moderate" if selected_payment_pct < 40 else "high"
+            payment_color = "#4DAA57" if payment_assessment == "good" else "#FF9500" if payment_assessment == "moderate" else "#E63946"
+            
+            st.markdown(f"""
+            <div style="font-size: 0.9rem; margin: 10px 0;">
+                Your selected payment (€{max_monthly:.0f}) is <span style="color:{payment_color}; font-weight:600;">{selected_payment_pct:.1f}%</span> of your monthly income.
+                This is considered <span style="color:{payment_color}; font-weight:600;">{payment_assessment}</span> by most lenders.
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Bank approval odds with explanation and concrete examples
+            st.markdown("""
+            <div style="margin: 20px 0 15px 0;">
+                <strong>Bank Approval Standards:</strong> Different banks have different risk tolerance levels.
+            </div>
+            """, unsafe_allow_html=True)
+            
+            target_approval = st.selectbox(
+                "Target Approval Likelihood", 
+                ["Very High (95%+)", "High (80-95%)", "Moderate (65-80%)", "Flexible"],
+                index=1,
+                key="recommender_approval"
+            )
+
+        # Add concrete examples for each approval tier - modified to only reference OP Bank
+        if target_approval == "Very High (95%+)":
+            st.markdown("""
+            <div class="bank-notice" style="border-left: 4px solid #4DAA57;">
+                <strong>Bank Examples:</strong> OP Bank and other major banks with stricter criteria. 
+                They typically require debt-to-income ratios under 35%, loan-to-value ratios under 80%, 
+                and excellent credit history.
+            </div>
+            """, unsafe_allow_html=True)
+        elif target_approval == "High (80-95%)":
+            st.markdown("""
+            <div class="bank-notice" style="border-left: 4px solid #FF9500;">
+                <strong>Bank Examples:</strong> Most Finnish banks including OP Bank. 
+                They typically accept debt-to-income ratios up to 40%, loan-to-value ratios up to 85%, 
+                and good credit history.
+            </div>
+            """, unsafe_allow_html=True)
+        elif target_approval == "Moderate (65-80%)":
+            st.markdown("""
+            <div class="bank-notice" style="border-left: 4px solid #FF5A00;">
+                <strong>Bank Examples:</strong> Some online lenders and smaller banks. 
+                They may accept debt-to-income ratios up to 45%, loan-to-value ratios up to 90%, 
+                and average credit history.
+            </div>
+            """, unsafe_allow_html=True)
+        else:  # Flexible
+            st.markdown("""
+            <div class="bank-notice" style="border-left: 4px solid #6c757d;">
+                <strong>What this means:</strong> You'll see all options regardless of approval likelihood. 
+                Some may require special considerations or programs that OP Bank might offer based on your unique situation.
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Generate button - in the info tab but affects the recommendation tab
+        if st.button("Generate My Personalized Recommendation", use_container_width=True, key="recommender_button"):
+            with st.spinner("Analyzing financial profiles and bank approval criteria..."):
+                time.sleep(2)
+                
+                # Generate options based on real mortgage lending standards
+                # Calculate realistic options based on the user's financial profile
+                options = [
+                    {
+                        "name": "Conservative",
+                        "down_payment": max(dp + 20000, 0.25 * (la + dp)),  # At least 25% down payment
+                        "loan_amount": min(la - 20000, 0.75 * (la + dp)),
+                        "term": max(lt - 5, 15),
+                        "rate": max(ir - 0.3, 2.8),  # Better rates for conservative profiles
+                        "monthly": 0,
+                        "total_interest": 0,
+                        "approval_odds": "Very High (95%+)",
+                        "risk_score": "Low Risk",
+                        "key_benefits": [
+                            "Lower total interest costs",
+                            "Faster equity building",
+                            "Better interest rates",
+                            "Higher approval likelihood"
+                        ],
+                        "considerations": [
+                            "Higher monthly payments",
+                            "More cash needed upfront",
+                            "Less funds for other investments"
+                        ]
+                    },
+                    {
+                        "name": "Balanced",
+                        "down_payment": max(dp + 10000, 0.20 * (la + dp)),  # 20% down payment (standard)
+                        "loan_amount": min(la - 10000, 0.80 * (la + dp)),
+                        "term": lt,
+                        "rate": max(ir - 0.15, 3.0),
+                        "monthly": 0,
+                        "total_interest": 0,
+                        "approval_odds": "High (80-95%)",
+                        "risk_score": "Moderate Risk",
+                        "key_benefits": [
+                            "Good balance of payment vs. interest",
+                            "Meets standard bank requirements",
+                            "Moderate cash needs upfront",
+                            "Leaves room for other investments"
+                        ],
+                        "considerations": [
+                            "Moderate total interest costs",
+                            "Average equity building pace",
+                            "Standard interest rates"
+                        ]
+                    },
+                    {
+                        "name": "Growth-Focused",
+                        "down_payment": max(dp, 0.15 * (la + dp)),  # 15% minimum down payment
+                        "loan_amount": min(la, 0.85 * (la + dp)),
+                        "term": min(lt + 3, 30),
+                        "rate": ir,  # Standard rate for higher LTV
+                        "monthly": 0,
+                        "total_interest": 0,
+                        "approval_odds": "Moderate (65-80%)",
+                        "risk_score": "Moderate Risk",
+                        "key_benefits": [
+                            "Lower monthly payment burden",
+                            "Minimum cash needed upfront",
+                            "More cash available for other investments",
+                            "Flexibility for career growth"
+                        ],
+                        "considerations": [
+                            "Higher total interest costs",
+                            "Slower equity building",
+                            "May require mortgage insurance",
+                            "Higher interest rates"
+                        ]
+                    }
+                ]
+                
+                # Calculate monthly payments and total interest using actual formulas
+                for opt in options:
+                    opt["monthly"] = (opt["loan_amount"] * (opt["rate"]/100/12) * 
+                                    (1 + opt["rate"]/100/12)**(opt["term"]*12)) / \
+                                    ((1 + opt["rate"]/100/12)**(opt["term"]*12) - 1)
+                    opt["total_interest"] = opt["monthly"] * opt["term"] * 12 - opt["loan_amount"]
+                    # Calculate real-world metrics
+                    opt["ltv_ratio"] = (opt["loan_amount"] / (opt["loan_amount"] + opt["down_payment"])) * 100
+                    opt["dti_ratio"] = (opt["monthly"] / mi) * 100
+                
+                # Filter options based on constraints and real approval criteria
+                filtered_options = [
+                    opt for opt in options 
+                    if opt["monthly"] <= max_monthly and
+                    (target_approval == "Flexible" or opt["approval_odds"] == target_approval) and
+                    opt["ltv_ratio"] <= 95  # Real-world maximum LTV
+                ]
+                
+                if not filtered_options:
+                    st.warning("""
+                    No options match your constraints. This happens when your maximum payment is too low 
+                    or your approval requirements are too strict for your financial situation. Try adjusting your parameters.
+                    """)
+                else:
+                    # Map risk tolerance to profile index, with more nuanced selection
+                    if risk_tolerance == 1:  # Very Conservative
+                        best_idx = 0  # Conservative profile
+                    elif risk_tolerance == 2:  # Moderately Conservative
+                        # Lean conservative but consider balanced
+                        best_idx = min(1, len(filtered_options) - 1)
+                    elif risk_tolerance == 3:  # Balanced
+                        # Pick middle option when possible
+                        best_idx = min(1, len(filtered_options) - 1)
+                    elif risk_tolerance == 4:  # Moderately Aggressive
+                        # Lean growth-focused but consider balanced
+                        best_idx = min(len(filtered_options) - 1, 1)
+                    else:  # Aggressive
+                        best_idx = min(2, len(filtered_options) - 1)  # Growth-Focused profile
+                    
+                    # Adjust based on payment priority preference
+                    if payment_priority == 1 and len(filtered_options) > 1:  # Lower Monthly Payment
+                        # Sort by monthly payment, lowest first
+                        filtered_options.sort(key=lambda x: x["monthly"])
+                        best_idx = 0
+                    elif payment_priority == 5 and len(filtered_options) > 1:  # Lower Total Interest
+                        # Sort by total interest, lowest first
+                        filtered_options.sort(key=lambda x: x["total_interest"])
+                        best_idx = 0
+                    
+                    recommended = filtered_options[best_idx]
+                    st.session_state.loan_options = filtered_options
+                    st.session_state.recommended = recommended
+                    st.session_state.all_options = options
+
+                    # After calculation, automatically switch to the recommendation tab
+                    st.success("Recommendation generated! Check the 'Loan Recommendation' tab for your personalized recommendation.")
+
+    # Second subtab: Recommendation display only
+    with recommendation_subtab:
+        with st.container(border=True):
+            col_img, col_text = st.columns([0.5, 3])
+                
             with col_img:
                 st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=175)
             
@@ -324,398 +732,8 @@ def render_loan_recommender():
                     <br>
                     Our recommendations are based on Finnish banking standards and financial best practices, not just estimates. We factor in your debt-to-income ratio, loan-to-value ratio, and overall financial health.
                 </div>
+                            
                 """, unsafe_allow_html=True)
-    
-    # Explain the options in more digestible format with concrete examples
-    st.markdown("### Common Loan Profiles in Finland")
-
-    with st.container(border=True):
-    
-        profile_col1, profile_col2, profile_col3 = st.columns(3)
-        
-        # Calculate concrete examples based on the user's actual loan amount
-        conservative_down = max(dp + 20000, 0.25 * (la + dp))
-        conservative_loan = (la + dp) - conservative_down
-        conservative_term = max(lt - 5, 15)
-        conservative_rate = max(ir - 0.3, 2.8)
-        conservative_monthly = (conservative_loan * (conservative_rate/100/12) * (1 + conservative_rate/100/12)**(conservative_term*12)) / ((1 + conservative_rate/100/12)**(conservative_term*12) - 1)
-        
-        balanced_down = max(dp + 10000, 0.20 * (la + dp))
-        balanced_loan = (la + dp) - balanced_down
-        balanced_term = lt
-        balanced_rate = max(ir - 0.15, 3.0)
-        balanced_monthly = (balanced_loan * (balanced_rate/100/12) * (1 + balanced_rate/100/12)**(balanced_term*12)) / ((1 + balanced_rate/100/12)**(balanced_term*12) - 1)
-        
-        growth_down = max(dp, 0.15 * (la + dp))
-        growth_loan = (la + dp) - growth_down
-        growth_term = min(lt + 3, 30)
-        growth_rate = ir
-        growth_monthly = (growth_loan * (growth_rate/100/12) * (1 + growth_rate/100/12)**(growth_term*12)) / ((1 + growth_rate/100/12)**(growth_term*12) - 1)
-        
-        # Use bank-style cards for each profile
-        with profile_col1:
-            st.markdown(f"""
-            <div class="bank-card">
-                <div class="bank-card-header">
-                    <span class="bank-card-title" style="color: #4DAA57;">Conservative Profile</span>
-                </div>
-                <ul style="padding-left: 15px; margin-bottom: 10px;">
-                    <li><strong>Down payment:</strong> €{conservative_down:,.0f} (25%+)</li>
-                    <li><strong>Loan amount:</strong> €{conservative_loan:,.0f}</li>
-                    <li><strong>Term:</strong> {conservative_term} years</li>
-                    <li><strong>Monthly payment:</strong> €{conservative_monthly:.0f}</li>
-                    <li><strong>Interest rate:</strong> Typically {conservative_rate}%</li>
-                </ul>
-                <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A family with €80,000 in savings choosing a 15-year loan with lower total interest costs.</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with profile_col2:
-            st.markdown(f"""
-            <div class="bank-card">
-                <div class="bank-card-header">
-                    <span class="bank-card-title" style="color: #FF9500;">Balanced Profile</span>
-                </div>
-                <ul style="padding-left: 15px; margin-bottom: 10px;">
-                    <li><strong>Down payment:</strong> €{balanced_down:,.0f} (20%)</li>
-                    <li><strong>Loan amount:</strong> €{balanced_loan:,.0f}</li>
-                    <li><strong>Term:</strong> {balanced_term} years</li>
-                    <li><strong>Monthly payment:</strong> €{balanced_monthly:.0f}</li>
-                    <li><strong>Interest rate:</strong> Typically {balanced_rate}%</li>
-                </ul>
-                <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A couple with €70,000 savings choosing a 25-year loan with balanced payments vs. interest.</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with profile_col3:
-            st.markdown(f"""
-            <div class="bank-card">
-                <div class="bank-card-header">
-                    <span class="bank-card-title" style="color: #FF5A00;">Growth-Focused Profile</span>
-                </div>
-                <ul style="padding-left: 15px; margin-bottom: 10px;">
-                    <li><strong>Down payment:</strong> €{growth_down:,.0f} (15%)</li>
-                    <li><strong>Loan amount:</strong> €{growth_loan:,.0f}</li>
-                    <li><strong>Term:</strong> {growth_term} years</li>
-                    <li><strong>Monthly payment:</strong> €{growth_monthly:.0f}</li>
-                    <li><strong>Interest rate:</strong> Typically {growth_rate}%</li>
-                </ul>
-                <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0;">Example: A young professional with €50,000 savings choosing a 30-year loan to minimize monthly payments.</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-    # Simplify the inputs - more guided approach with real examples
-    st.markdown("### What's Your Financial Priority?")
-    
-    with st.container(border=True):
-    
-        priority_option = st.radio(
-            "Choose what matters most to you:",
-            ["Lower Monthly Payments", "Balanced Approach", "Lower Total Interest Costs"],
-            index=1,
-            key="recommender_priority_option"
-        )
-            
-        # Map the selection to the slider value
-        if priority_option == "Lower Monthly Payments":
-            payment_priority = 1
-            st.markdown(f"""
-            <div class="bank-notice">
-                <strong>What this means:</strong> You'll get a longer loan term (25-30 years) with 
-                lower monthly payments (around €{growth_monthly:.0f}/month in your case), but will pay more in total interest over time.
-            </div>
-            """, unsafe_allow_html=True)
-        elif priority_option == "Balanced Approach":
-            payment_priority = 3
-            st.markdown(f"""
-            <div class="bank-notice">
-                <strong>What this means:</strong> You'll get a moderate loan term (around 25 years) 
-                with reasonable monthly payments (around €{balanced_monthly:.0f}/month in your case) and moderate total interest costs.
-            </div>
-            """, unsafe_allow_html=True)
-        else:  # Lower Total Interest
-            payment_priority = 5
-            st.markdown(f"""
-            <div class="bank-notice">
-                <strong>What this means:</strong> You'll get a shorter loan term (15-20 years) with 
-                higher monthly payments (around €{conservative_monthly:.0f}/month in your case), but will save significantly on total interest.
-            </div>
-            """, unsafe_allow_html=True)
-    
-    st.markdown("### How comfortable are you with financial risk?")    
-    with st.container(border=True):
-        
-        risk_option = st.radio(
-            "Choose your comfort level with financial stretching:",
-            ["Very Conservative", "Moderately Conservative", "Balanced", "Moderately Aggressive", "Aggressive"],
-            index=2,
-            key="recommender_risk_option"
-        )
-        
-        # Map the selection to risk tolerance value
-        risk_mapping = {
-            "Very Conservative": 1,
-            "Moderately Conservative": 2,
-            "Balanced": 3,
-            "Moderately Aggressive": 4,
-            "Aggressive": 5
-        }
-        
-        risk_tolerance = risk_mapping[risk_option]
-        
-        # Show risk implications with concrete numbers
-        if risk_option == "Very Conservative" or risk_option == "Moderately Conservative":
-            st.markdown(f"""
-            <div class="bank-notice" style="border-left: 4px solid #4DAA57;">
-                <strong>What this means:</strong> You prefer financial security with higher down 
-                payments (€{conservative_down:,.0f}+) and lower loan-to-value ratios (under 75%). This gives you better interest 
-                rates and less risk if property values decline.
-            </div>
-            """, unsafe_allow_html=True)
-        elif risk_option == "Balanced":
-            st.markdown(f"""
-            <div class="bank-notice" style="border-left: 4px solid #FF9500;">
-                <strong>What this means:</strong> You prefer a moderate approach with standard down 
-                payments (around €{balanced_down:,.0f} or 20%) and conventional loan terms. This balances financial security with 
-                keeping cash available for other needs.
-            </div>
-            """, unsafe_allow_html=True)
-        else:  # Aggressive options
-            st.markdown(f"""
-            <div class="bank-notice" style="border-left: 4px solid #FF5A00;">
-                <strong>What this means:</strong> You're comfortable with higher financial leverage, 
-                using lower down payments (around €{growth_down:,.0f} or 15%) and longer terms to maximize cash flow and investment 
-                potential elsewhere.
-            </div>
-            """, unsafe_allow_html=True)
-    
-    # Constraints section with better guidance
-    st.markdown("### Financial Constraints")
-    
-    # Show the current calculated monthly payment
-    current_monthly = (la * (ir/100/12) * (1 + ir/100/12)**(lt*12)) / ((1 + ir/100/12)**(lt*12) - 1)
-    
-    # Calculate percentages of income for different payment levels
-    low_payment = current_monthly * 0.8
-    low_payment_pct = (low_payment / mi) * 100
-    
-    high_payment = current_monthly * 1.2
-    high_payment_pct = (high_payment / mi) * 100
-    
-    current_payment_pct = (current_monthly / mi) * 100
-
-    with st.container(border=True):
-    
-        st.markdown(f"""
-        <div class="bank-widget" style="margin-bottom: 15px;">
-            <strong>Current Calculated Monthly Payment:</strong> €{current_monthly:.0f} ({current_payment_pct:.1f}% of your income)
-        </div>
-        """, unsafe_allow_html=True)
-        
-        max_monthly = st.slider(
-            "Maximum Comfortable Monthly Payment (€)", 
-            min_value=int(current_monthly * 0.7),
-            max_value=int(current_monthly * 1.5),
-            value=int(current_monthly * 1.1),
-            step=50,
-            key="recommender_max_payment"
-        )
-        
-        # Show what percentage of income the selected payment is
-        selected_payment_pct = (max_monthly / mi) * 100
-        payment_assessment = "good" if selected_payment_pct < 30 else "moderate" if selected_payment_pct < 40 else "high"
-        payment_color = "#4DAA57" if payment_assessment == "good" else "#FF9500" if payment_assessment == "moderate" else "#E63946"
-        
-        st.markdown(f"""
-        <div style="font-size: 0.9rem; margin: 10px 0;">
-            Your selected payment (€{max_monthly:.0f}) is <span style="color:{payment_color}; font-weight:600;">{selected_payment_pct:.1f}%</span> of your monthly income.
-            This is considered <span style="color:{payment_color}; font-weight:600;">{payment_assessment}</span> by most lenders.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Bank approval odds with explanation and concrete examples
-        st.markdown("""
-        <div style="margin: 20px 0 15px 0;">
-            <strong>Bank Approval Standards:</strong> Different banks have different risk tolerance levels.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        target_approval = st.selectbox(
-            "Target Approval Likelihood", 
-            ["Very High (95%+)", "High (80-95%)", "Moderate (65-80%)", "Flexible"],
-            index=1,
-            key="recommender_approval"
-        )
-    
-    # Add concrete examples for each approval tier - modified to only reference OP Bank
-    if target_approval == "Very High (95%+)":
-        st.markdown("""
-        <div class="bank-notice" style="border-left: 4px solid #4DAA57;">
-            <strong>Bank Examples:</strong> OP Bank and other major banks with stricter criteria. 
-            They typically require debt-to-income ratios under 35%, loan-to-value ratios under 80%, 
-            and excellent credit history.
-        </div>
-        """, unsafe_allow_html=True)
-    elif target_approval == "High (80-95%)":
-        st.markdown("""
-        <div class="bank-notice" style="border-left: 4px solid #FF9500;">
-            <strong>Bank Examples:</strong> Most Finnish banks including OP Bank. 
-            They typically accept debt-to-income ratios up to 40%, loan-to-value ratios up to 85%, 
-            and good credit history.
-        </div>
-        """, unsafe_allow_html=True)
-    elif target_approval == "Moderate (65-80%)":
-        st.markdown("""
-        <div class="bank-notice" style="border-left: 4px solid #FF5A00;">
-            <strong>Bank Examples:</strong> Some online lenders and smaller banks. 
-            They may accept debt-to-income ratios up to 45%, loan-to-value ratios up to 90%, 
-            and average credit history.
-        </div>
-        """, unsafe_allow_html=True)
-    else:  # Flexible
-        st.markdown("""
-        <div class="bank-notice" style="border-left: 4px solid #6c757d;">
-            <strong>What this means:</strong> You'll see all options regardless of approval likelihood. 
-            Some may require special considerations or programs that OP Bank might offer based on your unique situation.
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Generate button - in the info tab but affects the recommendation tab
-    if st.button("Generate My Personalized Recommendation", use_container_width=True, key="recommender_button"):
-        with st.spinner("Analyzing financial profiles and bank approval criteria..."):
-            time.sleep(2)
-            
-            # Generate options based on real mortgage lending standards
-            # Calculate realistic options based on the user's financial profile
-            options = [
-                {
-                    "name": "Conservative",
-                    "down_payment": max(dp + 20000, 0.25 * (la + dp)),  # At least 25% down payment
-                    "loan_amount": min(la - 20000, 0.75 * (la + dp)),
-                    "term": max(lt - 5, 15),
-                    "rate": max(ir - 0.3, 2.8),  # Better rates for conservative profiles
-                    "monthly": 0,
-                    "total_interest": 0,
-                    "approval_odds": "Very High (95%+)",
-                    "risk_score": "Low Risk",
-                    "key_benefits": [
-                        "Lower total interest costs",
-                        "Faster equity building",
-                        "Better interest rates",
-                        "Higher approval likelihood"
-                    ],
-                    "considerations": [
-                        "Higher monthly payments",
-                        "More cash needed upfront",
-                        "Less funds for other investments"
-                    ]
-                },
-                {
-                    "name": "Balanced",
-                    "down_payment": max(dp + 10000, 0.20 * (la + dp)),  # 20% down payment (standard)
-                    "loan_amount": min(la - 10000, 0.80 * (la + dp)),
-                    "term": lt,
-                    "rate": max(ir - 0.15, 3.0),
-                    "monthly": 0,
-                    "total_interest": 0,
-                    "approval_odds": "High (80-95%)",
-                    "risk_score": "Moderate Risk",
-                    "key_benefits": [
-                        "Good balance of payment vs. interest",
-                        "Meets standard bank requirements",
-                        "Moderate cash needs upfront",
-                        "Leaves room for other investments"
-                    ],
-                    "considerations": [
-                        "Moderate total interest costs",
-                        "Average equity building pace",
-                        "Standard interest rates"
-                    ]
-                },
-                {
-                    "name": "Growth-Focused",
-                    "down_payment": max(dp, 0.15 * (la + dp)),  # 15% minimum down payment
-                    "loan_amount": min(la, 0.85 * (la + dp)),
-                    "term": min(lt + 3, 30),
-                    "rate": ir,  # Standard rate for higher LTV
-                    "monthly": 0,
-                    "total_interest": 0,
-                    "approval_odds": "Moderate (65-80%)",
-                    "risk_score": "Moderate Risk",
-                    "key_benefits": [
-                        "Lower monthly payment burden",
-                        "Minimum cash needed upfront",
-                        "More cash available for other investments",
-                        "Flexibility for career growth"
-                    ],
-                    "considerations": [
-                        "Higher total interest costs",
-                        "Slower equity building",
-                        "May require mortgage insurance",
-                        "Higher interest rates"
-                    ]
-                }
-            ]
-            
-            # Calculate monthly payments and total interest using actual formulas
-            for opt in options:
-                opt["monthly"] = (opt["loan_amount"] * (opt["rate"]/100/12) * 
-                                (1 + opt["rate"]/100/12)**(opt["term"]*12)) / \
-                                ((1 + opt["rate"]/100/12)**(opt["term"]*12) - 1)
-                opt["total_interest"] = opt["monthly"] * opt["term"] * 12 - opt["loan_amount"]
-                # Calculate real-world metrics
-                opt["ltv_ratio"] = (opt["loan_amount"] / (opt["loan_amount"] + opt["down_payment"])) * 100
-                opt["dti_ratio"] = (opt["monthly"] / mi) * 100
-            
-            # Filter options based on constraints and real approval criteria
-            filtered_options = [
-                opt for opt in options 
-                if opt["monthly"] <= max_monthly and
-                (target_approval == "Flexible" or opt["approval_odds"] == target_approval) and
-                opt["ltv_ratio"] <= 95  # Real-world maximum LTV
-            ]
-            
-            if not filtered_options:
-                st.warning("""
-                No options match your constraints. This happens when your maximum payment is too low 
-                or your approval requirements are too strict for your financial situation. Try adjusting your parameters.
-                """)
-            else:
-                # Map risk tolerance to profile index, with more nuanced selection
-                if risk_tolerance == 1:  # Very Conservative
-                    best_idx = 0  # Conservative profile
-                elif risk_tolerance == 2:  # Moderately Conservative
-                    # Lean conservative but consider balanced
-                    best_idx = min(1, len(filtered_options) - 1)
-                elif risk_tolerance == 3:  # Balanced
-                    # Pick middle option when possible
-                    best_idx = min(1, len(filtered_options) - 1)
-                elif risk_tolerance == 4:  # Moderately Aggressive
-                    # Lean growth-focused but consider balanced
-                    best_idx = min(len(filtered_options) - 1, 1)
-                else:  # Aggressive
-                    best_idx = min(2, len(filtered_options) - 1)  # Growth-Focused profile
-                
-                # Adjust based on payment priority preference
-                if payment_priority == 1 and len(filtered_options) > 1:  # Lower Monthly Payment
-                    # Sort by monthly payment, lowest first
-                    filtered_options.sort(key=lambda x: x["monthly"])
-                    best_idx = 0
-                elif payment_priority == 5 and len(filtered_options) > 1:  # Lower Total Interest
-                    # Sort by total interest, lowest first
-                    filtered_options.sort(key=lambda x: x["total_interest"])
-                    best_idx = 0
-                
-                recommended = filtered_options[best_idx]
-                st.session_state.loan_options = filtered_options
-                st.session_state.recommended = recommended
-                st.session_state.all_options = options
-
-                # After calculation, automatically switch to the recommendation tab
-                st.success("Recommendation generated! Check the 'Loan Recommendation' tab for your personalized recommendation.")
-
-    # Second subtab: Recommendation display only
-    with recommendation_subtab:
         if 'loan_options' not in st.session_state:
             st.markdown("""
             <div class="bank-widget" style="text-align: center; padding: 30px;">
@@ -1623,7 +1641,7 @@ def render_loan_calculator():
     with st.container(border=True):
         col_img, col_text = st.columns([0.5, 3])
         with col_img:
-            st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=175)
+            st.image("https://github.com/immone/streamlit_demo_small/blob/main/assets/decision.png?raw=true", width=150)
         
         with col_text:
             st.markdown("""
